@@ -39,10 +39,10 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 2.1 Asset Management
 
-- [ ] CRUD operasi untuk Asset
-- [ ] Form add/edit asset (symbol, name, category, exchange)
-- [ ] Asset list view dengan filtering
-- [ ] Asset detail page
+- [x] CRUD operasi untuk Asset
+- [x] Form add/edit asset (symbol, name, category, exchange)
+- [x] Asset list view dengan filtering
+- [x] Asset detail page
 
 ### 2.2 Transaction System
 
