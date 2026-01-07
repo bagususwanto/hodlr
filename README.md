@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hodlr - Personal Investment Portfolio Management
+
+Hodlr is a **Progressive Web App (PWA)** designed to manage personal investment portfolios (Crypto, Stocks, etc.) with a focus on privacy and offline capability. It runs entirely in the browser using **IndexedDB** for local data storage and utilizes **Next.js 15** for a modern, performant foundation.
+
+## Features
+
+- **Portfolio Tracking:** Monitor assets across different categories (Crypto, Stocks).
+- **Local-First:** All data is stored locally on your device using IndexedDB (via Dexie.js). No external servers required for data storage.
+- **PWA:** Installable as a native-like application on desktop and mobile. Works offline.
+- **Strategies:** Define and track investment strategies (DCA, Swing, etc.).
+- **Journaling:** Keep a trading/investment journal.
+- **Analytics:** Visualize performance and asset allocation.
+
+## Tech Stack
+
+- **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- **Database:** [Dexie.js](https://dexie.org/) (IndexedDB wrapper)
+- **State Management:** [Zustand](https://github.com/pmndrs/zustand)
+- **Forms:** [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- **PWA:** [@ducanh2912/next-pwa](https://github.com/DuCanhGH/next-pwa)
 
 ## Getting Started
 
-First, run the development server:
+1.  **Clone the repository:**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    ```bash
+    git clone https://github.com/your-username/hodlr.git
+    cd hodlr
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2.  **Install dependencies:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    ```bash
+    npm install
+    # or
+    pnpm install
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3.  **Run the development server:**
 
-## Learn More
+    ```bash
+    npm run dev
+    # or
+    pnpm dev
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Requirements](docs/1-requirements.md)
+- [Technical Specification](docs/2-technical_specification.md)
+- [User Flow](docs/3-user_flow.md)
+- [Project Roadmap](docs/4-project_roadmap.md)
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](LICENSE)
