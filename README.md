@@ -26,7 +26,7 @@ Hodlr is a **Progressive Web App (PWA)** designed to manage personal investment 
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/your-username/hodlr.git
+    git clone https://github.com/bagususwanto/hodlr.git
     cd hodlr
     ```
 
