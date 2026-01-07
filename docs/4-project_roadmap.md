@@ -1,252 +1,241 @@
-# Hodlr - Project Roadmap & Timeline
+# Hodlr - Project Roadmap
 
 ## Overview
 
-Timeline pengembangan aplikasi Hodlr PWA dengan estimasi waktu berdasarkan development solo/small team.
-
----
-
-## Phase Overview
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         PROJECT TIMELINE                             │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  Phase 1        Phase 2        Phase 3        Phase 4        Phase 5│
-│  ────────       ────────       ────────       ────────       ───────│
-│  Foundation     Core           Features       Polish         Launch │
-│                                                                      │
-│  ██████████     ██████████     ██████████     ██████████     ██████ │
-│                                                                      │
-│  Week 1-2       Week 3-4       Week 5-6       Week 7         Week 8 │
-│                                                                      │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
-**Total Estimated Duration: 8 Weeks**
+Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan penyimpanan data lokal.
 
 ---
 
 ## Phase 1: Foundation (Week 1-2)
 
-### Goals
+### 1.1 Project Setup
 
-- Project setup & architecture
-- Database layer
-- Basic UI components
+- [x] Initialize Next.js 15 project dengan TypeScript
+- [x] Setup Tailwind CSS + shadcn/ui
+- [x] Konfigurasi PWA (next-pwa)
+- [x] Setup Dexie.js untuk IndexedDB
+- [x] Definisi database schema (Assets, Transactions, Strategies, JournalEntries)
+- [x] Setup Zustand store untuk state management
 
-### Tasks
+### 1.2 Core UI Components
 
-| Task                                | Estimated | Priority  |
-| ----------------------------------- | --------- | --------- |
-| Next.js 15 project setup            | 2 hours   | 🔴 High   |
-| PWA configuration (next-pwa)        | 2 hours   | 🔴 High   |
-| Tailwind CSS + shadcn/ui setup      | 2 hours   | 🔴 High   |
-| Forms setup (React Hook Form + Zod) | 2 hours   | 🔴 High   |
-| Utility libs (date-fns, uuid, clsx) | 1 hour    | 🔴 High   |
-| Dexie.js database setup             | 4 hours   | 🔴 High   |
-| Database schema implementation      | 4 hours   | 🔴 High   |
-| Basic layout components             | 4 hours   | 🔴 High   |
-| Navigation/routing setup            | 2 hours   | 🔴 High   |
-| Zustand store setup                 | 2 hours   | 🟡 Medium |
+- [ ] Layout utama (sidebar, header)
+- [ ] Navigation bottom bar (mobile)
+- [ ] Basic shadcn/ui components (Button, Input, Card, Dialog, etc.)
+- [ ] Theme setup (dark/light mode)
 
-### Deliverables
+### 1.3 Routing Structure
 
-- [x] Running Next.js app with PWA
-- [x] Database tables created
-- [x] Basic navigation working
-- [x] UI component library ready
+- [ ] `/` - Dashboard
+- [ ] `/strategies` - Strategies List
+- [ ] `/journal` - Journal List
+- [ ] `/assets` - Asset Tracker
+- [ ] `/analytics` - Analytics
+- [ ] `/settings` - Settings
 
 ---
 
-## Phase 2: Core Features (Week 3-4)
+## Phase 2: Core Features (Week 3-5)
 
-### Goals
+### 2.1 Asset Management
 
-- Asset management
-- Transaction CRUD
-- Dashboard basics
+- [ ] CRUD operasi untuk Asset
+- [ ] Form add/edit asset (symbol, name, category, exchange)
+- [ ] Asset list view dengan filtering
+- [ ] Asset detail page
 
-### Tasks
+### 2.2 Transaction System
 
-| Task                          | Estimated | Priority  |
-| ----------------------------- | --------- | --------- |
-| Asset CRUD operations         | 6 hours   | 🔴 High   |
-| Transaction form              | 8 hours   | 🔴 High   |
-| Transaction list & filters    | 6 hours   | 🔴 High   |
-| Holdings calculation logic    | 4 hours   | 🔴 High   |
-| Average cost calculation      | 4 hours   | 🔴 High   |
-| Realized P&L calculation      | 4 hours   | 🔴 High   |
-| Dashboard - Portfolio summary | 6 hours   | 🔴 High   |
-| Dashboard - Quick stats       | 4 hours   | 🟡 Medium |
+- [ ] CRUD operasi untuk Transaction
+- [ ] Form add transaction (type: BUY/SELL/SWAP)
+- [ ] Link transaction ke Asset
+- [ ] Link transaction ke Strategy (optional)
+- [ ] Tags support untuk transaction
+- [ ] Transaction history per asset
 
-### Deliverables
+### 2.3 Holdings Calculation
 
-- [x] Add/edit/delete assets
-- [x] Record transactions (BUY/SELL)
-- [x] View holdings with P&L
-- [x] Basic dashboard working
+- [ ] Fungsi `calculateHoldings()` - hitung total kepemilikan
+- [ ] Fungsi `calculateAverageCost()` - hitung harga rata-rata beli
+- [ ] Fungsi `calculateRealizedPnL()` - hitung realized profit/loss
+- [ ] Auto-update saat transaction ditambah/edit/hapus
 
 ---
 
-## Phase 3: Features (Week 5-6)
+## Phase 3: Strategy Module (Week 6-7)
 
-### Goals
+### 3.1 Strategy Management
 
-- Strategy management
-- Journal trading
-- Charts & visualization
+- [ ] CRUD operasi untuk Strategy
+- [ ] Form create strategy dengan type selection:
+  - [ ] DCA (Dollar Cost Averaging)
+  - [ ] Lump Sum
+  - [ ] Value Averaging
+  - [ ] Swing Trading
+  - [ ] HODL
+  - [ ] Rebalancing
+  - [ ] Custom
 
-### Tasks
+### 3.2 Strategy Configuration
 
-| Task                         | Estimated | Priority  |
-| ---------------------------- | --------- | --------- |
-| Strategy CRUD                | 6 hours   | 🔴 High   |
-| DCA strategy logic           | 4 hours   | 🔴 High   |
-| Swing trading strategy       | 4 hours   | 🔴 High   |
-| Other strategies (HODL, etc) | 4 hours   | 🟡 Medium |
-| Journal entry CRUD           | 6 hours   | 🔴 High   |
-| Journal attachments (images) | 4 hours   | 🟡 Medium |
-| Tags management              | 3 hours   | 🟡 Medium |
-| Portfolio allocation chart   | 4 hours   | 🔴 High   |
-| P&L over time chart          | 4 hours   | 🔴 High   |
-| Asset comparison chart       | 3 hours   | 🟡 Medium |
+- [ ] DCA config: amount, frequency (daily/weekly/monthly)
+- [ ] Swing config: entry zone, take profit, stop loss
+- [ ] Strategy status (Active/Paused/Completed)
+- [ ] Link transactions ke strategy
 
-### Deliverables
+### 3.3 Strategy Tracking
 
-- [x] Create & manage strategies
-- [x] Trade journal with attachments
-- [x] Portfolio charts working
+- [ ] Progress tracking per strategy
+- [ ] Performance metrics per strategy
+- [ ] Strategy comparison view
 
 ---
 
-## Phase 4: Polish (Week 7)
+## Phase 4: Journal Module (Week 8-9)
 
-### Goals
+### 4.1 Journal Entry System
 
-- Analytics & reports
-- Data backup
-- UI/UX improvements
+- [ ] CRUD operasi untuk Journal Entry
+- [ ] Entry types: Pre-Trade, Post-Trade, Analysis, Note
+- [ ] Markdown editor untuk content
+- [ ] Link ke Transaction (optional)
+- [ ] Link ke Strategy (optional)
 
-### Tasks
+### 4.2 Journal Features
 
-| Task                              | Estimated | Priority  |
-| --------------------------------- | --------- | --------- |
-| Analytics metrics (Win Rate, etc) | 6 hours   | 🔴 High   |
-| Export to JSON                    | 3 hours   | 🔴 High   |
-| Import from JSON                  | 3 hours   | 🔴 High   |
-| Export to PDF                     | 4 hours   | 🟡 Medium |
-| Settings page                     | 3 hours   | 🔴 High   |
-| Dark mode                         | 2 hours   | 🟡 Medium |
-| Loading states                    | 2 hours   | 🟡 Medium |
-| Error handling                    | 3 hours   | 🔴 High   |
-| Empty states                      | 2 hours   | 🟡 Medium |
-
-### Deliverables
-
-- [x] Analytics dashboard complete
-- [x] Data backup/restore working
-- [x] Polished UI with dark mode
+- [ ] Tags support
+- [ ] Image attachments (base64 storage)
+- [ ] Filter dan search entries
+- [ ] Timeline view
 
 ---
 
-## Phase 5: Launch (Week 8)
+## Phase 5: Dashboard & Analytics (Week 10-11)
 
-### Goals
+### 5.1 Dashboard
 
-- Testing & bug fixes
-- PWA optimization
-- Deployment
+- [ ] Total Portfolio Value display
+- [ ] P&L overview (realized)
+- [ ] Portfolio allocation pie chart
+- [ ] Best/Worst performer cards
+- [ ] Recent transactions list
+- [ ] Quick action buttons
 
-### Tasks
+### 5.2 Analytics Module
 
-| Task                        | Estimated | Priority  |
-| --------------------------- | --------- | --------- |
-| End-to-end testing          | 6 hours   | 🔴 High   |
-| Bug fixes                   | 8 hours   | 🔴 High   |
-| Performance optimization    | 4 hours   | 🟡 Medium |
-| PWA manifest finalization   | 2 hours   | 🔴 High   |
-| Service worker optimization | 3 hours   | 🟡 Medium |
-| Static export build         | 2 hours   | 🔴 High   |
-| Deploy to Vercel/Netlify    | 2 hours   | 🔴 High   |
-| Documentation               | 3 hours   | 🟡 Medium |
+- [ ] Performance metrics:
+  - [ ] Total Return
+  - [ ] Win Rate
+  - [ ] Average Win vs Average Loss
+- [ ] Visualizations:
+  - [ ] Portfolio value over time (line chart)
+  - [ ] Asset allocation (pie chart)
+  - [ ] Return per asset (bar chart)
+- [ ] Period filter (7d, 30d, 90d, 1y, All time, Custom)
 
-### Deliverables
+### 5.3 Reporting
 
-- [x] Bug-free application
-- [x] PWA installable
-- [x] Deployed & accessible
-
----
-
-## Milestone Calendar
-
-```
-January 2026
-────────────────────────────────────────────────────
-Week 1 (Jan 6-12)   │ Phase 1: Project Setup
-Week 2 (Jan 13-19)  │ Phase 1: Database & Components
-Week 3 (Jan 20-26)  │ Phase 2: Assets & Transactions
-Week 4 (Jan 27-31)  │ Phase 2: Dashboard & Calculations
-
-February 2026
-────────────────────────────────────────────────────
-Week 5 (Feb 1-7)    │ Phase 3: Strategies
-Week 6 (Feb 8-14)   │ Phase 3: Journal & Charts
-Week 7 (Feb 15-21)  │ Phase 4: Analytics & Polish
-Week 8 (Feb 22-28)  │ Phase 5: Testing & Launch
-
-🚀 Target Launch: February 28, 2026
-```
+- [ ] Export ke PDF (jsPDF)
+- [ ] Export ke Excel (xlsx)
+- [ ] Monthly/Yearly report generator
 
 ---
 
-## MVP Scope (Minimum Viable Product)
+## Phase 6: Settings & Polish (Week 12-13)
 
-Jika waktu terbatas, fokus ke fitur-fitur ini:
+### 6.1 Data Management
 
-### Must Have (MVP)
+- [ ] Export all data ke JSON
+- [ ] Import data dari JSON backup
+- [ ] Clear all data dengan konfirmasi
+- [ ] Storage usage display
 
-- ✅ Asset management
-- ✅ Transaction recording (BUY/SELL)
-- ✅ Holdings tracker with P&L
-- ✅ Basic dashboard
-- ✅ Data export/import (JSON)
-- ✅ PWA installable
+### 6.2 User Preferences
 
-### Nice to Have (Post-MVP)
+- [ ] Dark/Light mode toggle
+- [ ] Currency preference (IDR default)
+- [ ] Date format preference
+- [ ] Save preferences ke LocalStorage
 
-- 📝 Strategy management
-- 📝 Trading journal
-- 📝 Advanced charts
-- 📝 Analytics & reports
-- 📝 PDF export
+### 6.3 PWA Optimization
 
-**MVP Estimated Time: 4 Weeks**
-
----
-
-## Risk & Mitigation
-
-| Risk                        | Impact | Mitigation                  |
-| --------------------------- | ------ | --------------------------- |
-| IndexedDB compatibility     | High   | Test across browsers early  |
-| PWA installation issues     | Medium | Follow PWA checklist        |
-| Performance with large data | Medium | Implement pagination        |
-| Complex calculations        | Low    | Unit tests for calculations |
+- [ ] Service worker configuration
+- [ ] Offline caching strategy
+- [ ] App manifest
+- [ ] Install prompt
+- [ ] Splash screen
 
 ---
 
-## Success Metrics
+## Phase 7: Testing & Launch (Week 14)
 
-| Metric                 | Target  |
-| ---------------------- | ------- |
-| Lighthouse PWA Score   | > 90    |
-| First Contentful Paint | < 1.5s  |
-| Bundle Size            | < 500KB |
-| Data operations        | < 100ms |
+### 7.1 Testing
+
+- [ ] Manual testing semua fitur
+- [ ] Cross-browser testing (Chrome, Safari, Firefox)
+- [ ] Mobile responsive testing
+- [ ] PWA installation testing
+- [ ] Offline mode testing
+
+### 7.2 Bug Fixes & Polish
+
+- [ ] Fix bugs dari testing
+- [ ] Performance optimization
+- [ ] UX improvements
+
+### 7.3 Documentation
+
+- [ ] README.md
+- [ ] User guide
+- [ ] Deployment guide
+
+### 7.4 Deployment
+
+- [ ] Build production bundle
+- [ ] Deploy ke hosting (Vercel/Netlify)
+- [ ] Setup custom domain (optional)
 
 ---
 
-_Timeline ini fleksibel dan dapat disesuaikan berdasarkan prioritas dan ketersediaan waktu._
+## Future Enhancements (Post-Launch)
+
+| Feature         | Priority | Description                             |
+| --------------- | -------- | --------------------------------------- |
+| Multi-currency  | High     | Support IDR, USD, dll dengan conversion |
+| Watchlist       | Medium   | Track aset yang diminati tanpa holding  |
+| Advanced Charts | Medium   | Candlestick, technical indicators       |
+| Notifications   | Medium   | Reminder untuk DCA, price alerts        |
+| Social Sharing  | Low      | Share portfolio performance             |
+| Tax Report      | Low      | Helper untuk laporan pajak              |
+| Cloud Sync      | Low      | Optional backup ke cloud storage        |
+
+---
+
+## Tech Stack Summary
+
+| Component | Technology                 |
+| --------- | -------------------------- |
+| Framework | Next.js 15 (Static Export) |
+| Language  | TypeScript                 |
+| PWA       | next-pwa                   |
+| State     | Zustand                    |
+| Storage   | Dexie.js (IndexedDB)       |
+| UI        | Tailwind CSS + shadcn/ui   |
+| Charts    | Recharts                   |
+| Forms     | React Hook Form + Zod      |
+| Export    | jsPDF, xlsx                |
+
+---
+
+## Milestones
+
+| Milestone              | Target  | Status         |
+| ---------------------- | ------- | -------------- |
+| Project Setup Complete | Week 2  | 🔄 In Progress |
+| Core Features Ready    | Week 5  | ⏳ Pending     |
+| All Modules Complete   | Week 11 | ⏳ Pending     |
+| MVP Launch             | Week 14 | ⏳ Pending     |
+
+---
+
+_Dokumen ini akan diperbarui seiring perkembangan proyek._
