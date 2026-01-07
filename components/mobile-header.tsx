@@ -21,6 +21,11 @@ export function MobileHeader() {
 
   const pageTitle = pageTitles[pathname] || "Hodlr";
 
+  // Hide MobileHeader on Asset Detail pages as they have their own header
+  if (pathname.startsWith("/assets/") && pathname !== "/assets") {
+    return null;
+  }
+
   return (
     <header className="flex h-14 items-center justify-between border-b px-4">
       <div className="flex items-center gap-3">
