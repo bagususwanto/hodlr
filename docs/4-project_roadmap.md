@@ -19,10 +19,10 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 1.2 Core UI Components
 
-- [ ] Layout utama (sidebar, header)
-- [ ] Navigation bottom bar (mobile)
-- [ ] Basic shadcn/ui components (Button, Input, Card, Dialog, etc.)
-- [ ] Theme setup (dark/light mode)
+- [x] Layout utama (sidebar, header)
+- [x] Navigation bottom bar (mobile)
+- [x] Basic shadcn/ui components (Button, Input, Card, Dialog, etc.)
+- [x] Theme setup (dark/light mode)
 
 ### 1.3 Routing Structure
 
