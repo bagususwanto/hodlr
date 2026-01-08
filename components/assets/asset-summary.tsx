@@ -34,8 +34,8 @@ export function AssetSummary({ asset }: AssetSummaryProps) {
       <AssetStatCard
         label="Realized P&L"
         value={
-          <div className="flex items-baseline gap-2">
-            <span className={`text-2xl font-bold ${pnlColor}`}>
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <span className={`text-xl md:text-2xl font-bold ${pnlColor}`}>
               {realizedPnL >= 0 ? "+" : ""}
               {formatCurrency(realizedPnL)}
             </span>

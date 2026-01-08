@@ -18,7 +18,7 @@ import { formatCurrency } from "@/lib/utils";
 import { Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AddTransactionDialog } from "./add-transaction-dialog";
-import { cn } from "@/lib/utils";
+import { useStrategies } from "@/hooks/use-strategies";
 
 interface TransactionHistoryProps {
   assetId: string;
@@ -30,6 +30,7 @@ export function TransactionHistory({
   hideAddButton = false,
 }: TransactionHistoryProps) {
   const { transactions, isLoading } = useTransactions(assetId);
+  const { strategies } = useStrategies();
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
 
@@ -57,6 +58,12 @@ export function TransactionHistory({
     );
   }
 
+  const getStrategyName = (strategyId?: string) => {
+    if (!strategyId) return "-";
+    const strategy = strategies?.find((s) => s.id === strategyId);
+    return strategy ? strategy.name : "Unknown Strategy";
+  };
+
   return (
     <div className="space-y-4">
       {!hideAddButton && (
@@ -70,6 +77,7 @@ export function TransactionHistory({
             <TableRow>
               <TableHead>Date</TableHead>
               <TableHead>Type</TableHead>
+              <TableHead>Strategy</TableHead>
               <TableHead className="text-right">Quantity</TableHead>
               <TableHead className="text-right">Price</TableHead>
               <TableHead className="text-right">Total</TableHead>
@@ -98,6 +106,7 @@ export function TransactionHistory({
                     {transaction.type}
                   </Badge>
                 </TableCell>
+                <TableCell>{getStrategyName(transaction.strategyId)}</TableCell>
                 <TableCell className="text-right">
                   {transaction.quantity}
                 </TableCell>
