@@ -33,13 +33,13 @@ export function StrategyCard({
       : "outline";
 
   return (
-    <Card>
+    <Card className="flex flex-col h-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{strategy.name}</CardTitle>
         <Badge variant={statusColor}>{strategy.status}</Badge>
       </CardHeader>
-      <CardContent>
-        <div className="grid gap-2">
+      <CardContent className="flex-1 flex flex-col">
+        <div className="flex flex-col gap-2 flex-1">
           <div className="text-2xl font-bold">
             {strategy.type.replace("_", " ")}
           </div>
@@ -151,7 +151,7 @@ export function StrategyCard({
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 mt-4">
+          <div className="flex justify-end gap-2 mt-auto pt-4">
             <Button
               variant="outline"
               size="icon"

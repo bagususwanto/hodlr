@@ -495,13 +495,9 @@ export function StrategyForm({ strategy, onSuccess }: StrategyFormProps) {
             />
           </div>
         )}
-
-        <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={onSuccess}>
-            Cancel
-          </Button>
-          <Button type="submit">Save Strategy</Button>
-        </div>
+        <Button className="w-full" type="submit">
+          Save Strategy
+        </Button>
       </form>
     </Form>
   );
