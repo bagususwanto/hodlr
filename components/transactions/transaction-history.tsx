@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { Transaction } from "@/lib/db/schema";
+import { TransactionDetailDialog } from "./transaction-detail-dialog";
 import { useTransactions } from "@/hooks/use-transactions";
 import {
   Table,
@@ -27,6 +30,8 @@ export function TransactionHistory({
   hideAddButton = false,
 }: TransactionHistoryProps) {
   const { transactions, isLoading } = useTransactions(assetId);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
 
   if (isLoading) {
     return (
@@ -74,7 +79,10 @@ export function TransactionHistory({
           </TableHeader>
           <TableBody>
             {transactions.map((transaction) => (
-              <TableRow key={transaction.id}>
+              <TableRow
+                key={transaction.id}
+                className="cursor-pointer hover:bg-muted/50"
+                onClick={() => setSelectedTransaction(transaction)}>
                 <TableCell>
                   {format(new Date(transaction.date), "MMM d, yyyy")}
                 </TableCell>
@@ -116,6 +124,11 @@ export function TransactionHistory({
           </TableBody>
         </Table>
       </div>
+      <TransactionDetailDialog
+        transaction={selectedTransaction}
+        open={!!selectedTransaction}
+        onOpenChange={(open) => !open && setSelectedTransaction(null)}
+      />
     </div>
   );
 }
