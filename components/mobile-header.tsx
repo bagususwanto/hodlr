@@ -32,10 +32,15 @@ export function MobileHeader() {
         {isHome ? (
           // Home: Show logo
           <div className="flex items-center gap-2">
-            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-black text-white dark:bg-white dark:text-black">
-              <span className="font-bold">H</span>
+            <img
+              src="/icons/icon-192x192.png"
+              alt="Hodlr"
+              className="size-8 rounded-lg"
+            />
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-semibold">Hodlr</span>
+              <span className="truncate text-xs">Portfolio Manager</span>
             </div>
-            <span className="font-semibold">Hodlr</span>
           </div>
         ) : (
           // Other pages: Show back button + page title
