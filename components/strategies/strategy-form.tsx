@@ -389,6 +389,9 @@ export function StrategyForm({ strategy, onSuccess }: StrategyFormProps) {
                       <FormControl>
                         <Input type="number" placeholder="0.00" {...field} />
                       </FormControl>
+                      <FormDescription>
+                        Lowest price to start buying.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -402,6 +405,9 @@ export function StrategyForm({ strategy, onSuccess }: StrategyFormProps) {
                       <FormControl>
                         <Input type="number" placeholder="0.00" {...field} />
                       </FormControl>
+                      <FormDescription>
+                        Highest price limit for entry.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -421,6 +427,9 @@ export function StrategyForm({ strategy, onSuccess }: StrategyFormProps) {
                       <FormControl>
                         <Input type="number" placeholder="0.00" {...field} />
                       </FormControl>
+                      <FormDescription>
+                        Target price to sell for profit.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -434,6 +443,9 @@ export function StrategyForm({ strategy, onSuccess }: StrategyFormProps) {
                       <FormControl>
                         <Input type="number" placeholder="0.00" {...field} />
                       </FormControl>
+                      <FormDescription>
+                        Price to exit to limit losses.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
