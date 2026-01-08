@@ -4,7 +4,7 @@ import { useAsset, useDeleteAsset, useUpdateAsset } from "@/hooks/use-assets";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Edit, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { AssetSummary } from "../components/asset-summary";
+import { AssetSummary } from "@/components/assets/asset-summary";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { AssetForm } from "../components/asset-form";
+import { AssetForm } from "@/components/assets/asset-form";
 import { TransactionHistory } from "@/components/transactions/transaction-history";
 import { AddTransactionDialog } from "@/components/transactions/add-transaction-dialog";
 import {

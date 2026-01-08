@@ -11,8 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { AssetList } from "./components/asset-list";
-import { AssetForm } from "./components/asset-form";
+import { AssetList } from "@/components/assets/asset-list";
+import { AssetForm } from "@/components/assets/asset-form";
 import { Asset } from "@/lib/db/schema";
 
 export default function AssetsPage() {
