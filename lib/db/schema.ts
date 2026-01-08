@@ -45,6 +45,8 @@ export interface Strategy {
     entryZone?: { min: number; max: number };
     takeProfit?: number;
     stopLoss?: number;
+    totalAllocation?: number;
+    entryPlan?: string;
 
     // Custom fields
     [key: string]: any;

@@ -66,22 +66,22 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 3.1 Strategy Management
 
-- [ ] CRUD operasi untuk Strategy
-- [ ] Form create strategy dengan type selection:
-  - [ ] DCA (Dollar Cost Averaging)
-  - [ ] Lump Sum
-  - [ ] Value Averaging
-  - [ ] Swing Trading
-  - [ ] HODL
-  - [ ] Rebalancing
-  - [ ] Custom
+- [x] CRUD operasi untuk Strategy
+- [x] Form create strategy dengan type selection:
+  - [x] DCA (Dollar Cost Averaging)
+  - [x] Lump Sum
+  - [x] Value Averaging
+  - [x] Swing Trading
+  - [x] HODL
+  - [x] Rebalancing
+  - [x] Custom
 
 ### 3.2 Strategy Configuration
 
-- [ ] DCA config: amount, frequency (daily/weekly/monthly)
-- [ ] Swing config: entry zone, take profit, stop loss
-- [ ] Strategy status (Active/Paused/Completed)
-- [ ] Link transactions ke strategy
+- [x] DCA config: amount, frequency (daily/weekly/monthly)
+- [x] Swing config: entry zone, take profit, stop loss
+- [x] Strategy status (Active/Paused/Completed)
+- [x] Link transactions ke strategy
 
 ### 3.3 Strategy Tracking
 
