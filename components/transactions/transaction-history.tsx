@@ -19,9 +19,13 @@ import { cn } from "@/lib/utils";
 
 interface TransactionHistoryProps {
   assetId: string;
+  hideAddButton?: boolean;
 }
 
-export function TransactionHistory({ assetId }: TransactionHistoryProps) {
+export function TransactionHistory({
+  assetId,
+  hideAddButton = false,
+}: TransactionHistoryProps) {
   const { transactions, isLoading } = useTransactions(assetId);
 
   if (isLoading) {
@@ -50,9 +54,11 @@ export function TransactionHistory({ assetId }: TransactionHistoryProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
-        <AddTransactionDialog defaultAssetId={assetId} />
-      </div>
+      {!hideAddButton && (
+        <div className="flex justify-end">
+          <AddTransactionDialog defaultAssetId={assetId} />
+        </div>
+      )}
       <div className="rounded-md border">
         <Table>
           <TableHeader>

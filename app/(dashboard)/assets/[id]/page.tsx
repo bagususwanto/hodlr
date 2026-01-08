@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import { AssetForm } from "../components/asset-form";
 import { TransactionHistory } from "@/components/transactions/transaction-history";
+import { AddTransactionDialog } from "@/components/transactions/add-transaction-dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -111,16 +112,16 @@ export default function AssetDetailPage({ params }: AssetDetailPageProps) {
       <AssetSummary asset={asset} />
 
       <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
-        <div className="flex flex-col space-y-1.5 p-6">
-          <h3 className="font-semibold leading-none tracking-tight">
-            Transaction History
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            History of your transactions for this asset.
-          </p>
+        <div className="flex flex-row items-center justify-between p-6">
+          <div className="flex flex-col space-y-1.5">
+            <h3 className="font-semibold leading-none tracking-tight">
+              Transaction History
+            </h3>
+          </div>
+          <AddTransactionDialog defaultAssetId={asset.id} />
         </div>
         <div className="p-6 pt-0">
-          <TransactionHistory assetId={asset.id} />
+          <TransactionHistory assetId={asset.id} hideAddButton />
         </div>
       </div>
 
