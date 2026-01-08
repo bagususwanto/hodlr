@@ -17,8 +17,22 @@ export default function manifest(): MetadataRoute.Manifest {
       },
       {
         src: "/icons/android-chrome-512x512.png",
-        sizes: "512x512",
+        sizes: "1024x1024",
         type: "image/png",
+      },
+    ],
+    screenshots: [
+      {
+        src: "/screenshots/mobile.png",
+        sizes: "1024x1024",
+        type: "image/png",
+        form_factor: "narrow",
+      },
+      {
+        src: "/screenshots/desktop.png",
+        sizes: "1024x1024",
+        type: "image/png",
+        form_factor: "wide",
       },
     ],
   };
