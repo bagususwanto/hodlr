@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Asset } from "@/lib/db/schema";
 import { Edit, Trash2 } from "lucide-react";
 
@@ -38,7 +38,7 @@ export function AssetActions({ asset, onEdit, onDelete }: AssetActionsProps) {
             variant="ghost"
             size="icon"
             className="h-8 w-8 text-muted-foreground hover:text-destructive">
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-4 w-4 text-destructive" />
             <span className="sr-only">Delete</span>
           </Button>
         </AlertDialogTrigger>
@@ -54,7 +54,7 @@ export function AssetActions({ asset, onEdit, onDelete }: AssetActionsProps) {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => onDelete(asset.id)}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              className={buttonVariants({ variant: "destructive" })}>
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
