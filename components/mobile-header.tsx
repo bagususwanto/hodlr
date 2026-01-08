@@ -1,8 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const pageTitles: Record<string, string> = {
@@ -16,7 +14,6 @@ const pageTitles: Record<string, string> = {
 
 export function MobileHeader() {
   const pathname = usePathname();
-  const router = useRouter();
   const isHome = pathname === "/";
 
   const pageTitle = pageTitles[pathname] || "Hodlr";
@@ -43,15 +40,8 @@ export function MobileHeader() {
             </div>
           </div>
         ) : (
-          // Other pages: Show back button + page title
+          // Other pages: page title
           <>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-8"
-              onClick={() => router.back()}>
-              <ArrowLeft className="size-5" />
-            </Button>
             <span className="font-semibold">{pageTitle}</span>
           </>
         )}
