@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { AssetForm } from "../components/asset-form";
+import { TransactionHistory } from "@/components/transactions/transaction-history";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -119,13 +120,7 @@ export default function AssetDetailPage({ params }: AssetDetailPageProps) {
           </p>
         </div>
         <div className="p-6 pt-0">
-          <div className="flex flex-col items-center justify-center py-10 text-muted-foreground border border-dashed rounded-lg">
-            <p>No transactions found.</p>
-            <Button variant="link" className="mt-2">
-              <Plus className="mr-2 h-4 w-4" />
-              Add Transaction
-            </Button>
-          </div>
+          <TransactionHistory assetId={asset.id} />
         </div>
       </div>
 

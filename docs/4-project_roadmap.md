@@ -46,12 +46,12 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 2.2 Transaction System
 
-- [ ] CRUD operasi untuk Transaction
-- [ ] Form add transaction (type: BUY/SELL/SWAP)
-- [ ] Link transaction ke Asset
-- [ ] Link transaction ke Strategy (optional)
-- [ ] Tags support untuk transaction
-- [ ] Transaction history per asset
+- [x] CRUD operasi untuk Transaction
+- [x] Form add transaction (type: BUY/SELL/SWAP)
+- [x] Link transaction ke Asset
+- [x] Link transaction ke Strategy (optional)
+- [x] Tags support untuk transaction
+- [x] Transaction history per asset
 
 ### 2.3 Holdings Calculation
 
