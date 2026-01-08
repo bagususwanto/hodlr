@@ -11,6 +11,7 @@ import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -185,6 +186,9 @@ export function TransactionForm({
                     onChange={(e) => field.onChange(e)}
                   />
                 </FormControl>
+                <FormDescription>
+                  The amount of assets to buy/sell (e.g., 0.5 BTC).
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -205,6 +209,9 @@ export function TransactionForm({
                     onChange={(e) => field.onChange(e)}
                   />
                 </FormControl>
+                <FormDescription>
+                  Price per single unit in USD (e.g., $50,000).
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -227,6 +234,7 @@ export function TransactionForm({
                     onChange={(e) => field.onChange(e)}
                   />
                 </FormControl>
+                <FormDescription>Total transaction fee in USD.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
