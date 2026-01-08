@@ -16,6 +16,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Hodlr",
   description: "Personal Investment Portfolio Management",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Hodlr",
+  },
+  icons: {
+    icon: "/icons/icon-192x192.png",
+    shortcut: "/icons/icon-192x192.png",
+    apple: "/icons/icon-512x512.png",
+  },
 };
 
 export const viewport: Viewport = {
