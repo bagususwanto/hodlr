@@ -55,10 +55,10 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 2.3 Holdings Calculation
 
-- [ ] Fungsi `calculateHoldings()` - hitung total kepemilikan
-- [ ] Fungsi `calculateAverageCost()` - hitung harga rata-rata beli
-- [ ] Fungsi `calculateRealizedPnL()` - hitung realized profit/loss
-- [ ] Auto-update saat transaction ditambah/edit/hapus
+- [x] Fungsi `calculateHoldings()` - hitung total kepemilikan
+- [x] Fungsi `calculateAverageCost()` - hitung harga rata-rata beli
+- [x] Fungsi `calculateRealizedPnL()` - hitung realized profit/loss
+- [x] Auto-update saat transaction ditambah/edit/hapus
 
 ---
 

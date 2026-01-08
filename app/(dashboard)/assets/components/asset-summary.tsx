@@ -1,20 +1,23 @@
-"use client";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
 import { Asset } from "@/lib/db/schema";
+import { useAssetStats } from "@/hooks/use-asset-stats";
 
 interface AssetSummaryProps {
   asset: Asset;
 }
 
 export function AssetSummary({ asset }: AssetSummaryProps) {
-  // Placeholders until we have transaction data
-  const holdings = 0;
-  const avgCost = 0;
-  const totalInvested = 0;
-  const realizedPnL = 0;
-  const realizedPnLPercent = 0;
+  const { holdings, avgCost, totalInvested, realizedPnL, realizedPnLPercent } =
+    useAssetStats(asset.id);
+
+  // Helper helper to format percentage
+  const formatPercent = (val: number) => {
+    return val.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
 
   return (
     <div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
@@ -66,7 +69,7 @@ export function AssetSummary({ asset }: AssetSummaryProps) {
                 realizedPnLPercent >= 0 ? "text-green-500" : "text-red-500"
               }`}>
               ({realizedPnLPercent >= 0 ? "+" : ""}
-              {realizedPnLPercent}%)
+              {formatPercent(realizedPnLPercent)}%)
             </span>
           </div>
         </CardContent>
