@@ -4,9 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Strategy } from "@/lib/db/schema";
 import { format } from "date-fns";
-import { Play, Pause, Trash2, Edit } from "lucide-react";
+import { Play, Pause, Trash2, Edit, TrendingUp, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAsset } from "@/hooks/use-assets";
+import { useStrategyStats } from "@/hooks/use-strategy-stats";
 
 interface StrategyCardProps {
   strategy: Strategy;
@@ -22,6 +23,7 @@ export function StrategyCard({
   onToggleStatus,
 }: StrategyCardProps) {
   const { asset } = useAsset(strategy.assetId || "");
+  const { stats } = useStrategyStats(strategy.id);
 
   const statusColor =
     strategy.status === "ACTIVE"
@@ -126,6 +128,28 @@ export function StrategyCard({
           <p className="text-xs text-muted-foreground pt-2 border-t mt-2">
             Started: {format(new Date(strategy.startDate), "PP")}
           </p>
+
+          <div className="grid grid-cols-2 gap-2 pt-2 border-t text-xs">
+            <div className="flex flex-col">
+              <span className="text-muted-foreground flex items-center gap-1">
+                <Wallet className="h-3 w-3" /> Invested
+              </span>
+              <span className="font-medium">
+                {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(stats?.totalInvested || 0)}
+              </span>
+            </div>
+            <div className="flex flex-col text-right">
+              <span className="text-muted-foreground flex items-center justify-end gap-1">
+                <TrendingUp className="h-3 w-3" /> Quantity
+              </span>
+              <span className="font-medium">
+                {stats?.totalQuantity || 0} {asset?.symbol}
+              </span>
+            </div>
+          </div>
 
           <div className="flex justify-end gap-2 mt-4">
             <Button

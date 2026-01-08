@@ -85,9 +85,9 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 3.3 Strategy Tracking
 
-- [ ] Progress tracking per strategy
-- [ ] Performance metrics per strategy
-- [ ] Strategy comparison view
+- [x] Progress tracking per strategy
+- [x] Performance metrics per strategy
+- [x] Strategy comparison view
 
 ---
 
