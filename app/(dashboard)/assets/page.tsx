@@ -45,7 +45,7 @@ export default function AssetsPage() {
           <DialogTrigger asChild>
             <Button onClick={handleAdd}>
               <Plus className="mr-2 h-4 w-4" />
-              Add Asset
+              New Asset
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">

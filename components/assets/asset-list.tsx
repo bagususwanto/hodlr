@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AssetFilters } from "./list/asset-filters";
 import { AssetTable } from "./list/asset-table";
+import { AssetMobileList } from "./list/asset-mobile-list";
 
 export interface AssetListProps {
   assets: Asset[];
@@ -66,12 +67,22 @@ export function AssetList({ assets, onEdit }: AssetListProps) {
         categoryFilter={categoryFilter}
         setCategoryFilter={setCategoryFilter}
       />
-      <AssetTable
-        assets={filteredAssets || []}
-        onRowClick={handleRowClick}
-        onEdit={onEdit}
-        onDelete={handleDelete}
-      />
+      <div className="md:hidden">
+        <AssetMobileList
+          assets={filteredAssets || []}
+          onRowClick={handleRowClick}
+          onEdit={onEdit}
+          onDelete={handleDelete}
+        />
+      </div>
+      <div className="hidden md:block">
+        <AssetTable
+          assets={filteredAssets || []}
+          onRowClick={handleRowClick}
+          onEdit={onEdit}
+          onDelete={handleDelete}
+        />
+      </div>
     </div>
   );
 }

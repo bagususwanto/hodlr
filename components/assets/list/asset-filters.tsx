@@ -28,7 +28,7 @@ export function AssetFilters({
         placeholder="Search items..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full md:max-w-sm"
+        className="w-full md:max-w-xl"
       />
       <Select value={categoryFilter} onValueChange={setCategoryFilter}>
         <SelectTrigger className="w-full">
