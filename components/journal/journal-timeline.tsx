@@ -51,7 +51,7 @@ export function JournalTimeline({
         <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
           <h3 className="mt-4 text-lg font-semibold">No entries</h3>
           <p className="mb-4 mt-2 text-sm text-muted-foreground">
-            You haven't created any journal entries yet.
+            You haven&apos;t created any journal entries yet.
           </p>
         </div>
       </div>
