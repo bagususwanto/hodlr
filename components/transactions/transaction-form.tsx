@@ -33,8 +33,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useAssets } from "@/hooks/use-assets";
 import { useStrategies } from "@/hooks/use-strategies";
-import { useCreateTransaction } from "@/hooks/use-transactions";
+import {
+  useCreateTransaction,
+  useUpdateTransaction,
+} from "@/hooks/use-transactions";
 import { toast } from "sonner";
+import { Transaction } from "@/lib/db/schema";
 import { useState } from "react";
 
 const formSchema = z.object({
@@ -51,31 +55,35 @@ const formSchema = z.object({
 
 type TransactionFormValues = z.infer<typeof formSchema>;
 
-interface TransactionFormProps {
+export interface TransactionFormProps {
   onSuccess?: () => void;
   defaultAssetId?: string;
+  transaction?: Transaction;
 }
 
 export function TransactionForm({
   onSuccess,
   defaultAssetId,
+  transaction,
 }: TransactionFormProps) {
   const { assets } = useAssets();
   const { strategies } = useStrategies();
   const { createTransaction } = useCreateTransaction();
+  const { updateTransaction } = useUpdateTransaction();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<TransactionFormValues>({
     resolver: zodResolver(formSchema) as any,
     defaultValues: {
-      type: "BUY",
-      assetId: defaultAssetId || "",
-      quantity: 0,
-      price: 0,
-      fee: 0,
-      date: new Date(),
-      notes: "",
-      tags: "",
+      type: transaction?.type || "BUY",
+      assetId: transaction?.assetId || defaultAssetId || "",
+      quantity: transaction?.quantity || 0,
+      price: transaction?.price || 0,
+      fee: transaction?.fee || 0,
+      date: transaction?.date ? new Date(transaction.date) : new Date(),
+      strategyId: transaction?.strategyId || "none",
+      notes: transaction?.notes || "",
+      tags: transaction?.tags?.join(", ") || "",
     },
   });
 
@@ -90,7 +98,7 @@ export function TransactionForm({
             .filter((t) => t)
         : undefined;
 
-      await createTransaction({
+      const transactionData = {
         assetId: values.assetId,
         type: values.type,
         quantity: values.quantity,
@@ -102,14 +110,25 @@ export function TransactionForm({
           values.strategyId === "none" ? undefined : values.strategyId,
         notes: values.notes,
         tags: tagsArray,
-      });
+      };
 
-      toast.success("Transaction added successfully");
+      if (transaction) {
+        await updateTransaction(transaction.id, transactionData);
+        toast.success("Transaction updated successfully");
+      } else {
+        await createTransaction(transactionData);
+        toast.success("Transaction added successfully");
+      }
+
       form.reset();
       onSuccess?.();
     } catch (error) {
       console.error(error);
-      toast.error("Failed to add transaction");
+      toast.error(
+        transaction
+          ? "Failed to update transaction"
+          : "Failed to add transaction"
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -348,7 +367,13 @@ export function TransactionForm({
         />
 
         <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Adding Transaction..." : "Add Transaction"}
+          {isSubmitting
+            ? transaction
+              ? "Saving..."
+              : "Adding Transaction..."
+            : transaction
+            ? "Save Changes"
+            : "Add Transaction"}
         </Button>
       </form>
     </Form>
