@@ -95,17 +95,17 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 4.1 Journal Entry System
 
-- [ ] CRUD operasi untuk Journal Entry
-- [ ] Entry types: Pre-Trade, Post-Trade, Analysis, Note
-- [ ] Markdown editor untuk content
-- [ ] Link ke Transaction (optional)
-- [ ] Link ke Strategy (optional)
+- [x] CRUD operasi untuk Journal Entry
+- [x] Entry types: Pre-Trade, Post-Trade, Analysis, Note
+- [x] Markdown editor untuk content
+- [x] Link ke Transaction (optional)
+- [x] Link ke Strategy (optional)
 
 ### 4.2 Journal Features
 
-- [ ] Tags support
-- [ ] Image attachments (base64 storage)
-- [ ] Filter dan search entries
+- [x] Tags support
+- [x] Image attachments (base64 storage)
+- [x] Filter dan search entries
 - [ ] Timeline view
 
 ---
