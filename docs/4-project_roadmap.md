@@ -106,7 +106,7 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 - [x] Tags support
 - [x] Image attachments (base64 storage)
 - [x] Filter dan search entries
-- [ ] Timeline view
+- [x] Timeline view
 
 ---
 

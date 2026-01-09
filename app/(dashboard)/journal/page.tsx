@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, LayoutGrid, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { JournalList } from "@/components/journal/journal-list";
+import { JournalTimeline } from "@/components/journal/journal-timeline";
 import { JournalForm } from "@/components/journal/journal-form";
 import { useJournalEntries } from "@/hooks/use-journal";
 import { JournalEntry } from "@/lib/db/schema";
@@ -25,6 +26,8 @@ export default function JournalPage() {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("ALL");
+
+  const [viewMode, setViewMode] = useState<"grid" | "timeline">("grid");
 
   const filteredEntries = entries?.filter((entry) => {
     const matchesSearch =
@@ -85,7 +88,7 @@ export default function JournalPage() {
           </Dialog>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
           <div className="flex-1">
             <input
               type="text"
@@ -105,15 +108,39 @@ export default function JournalPage() {
             <option value="ANALYSIS">Analysis</option>
             <option value="NOTE">Note</option>
           </select>
+          <div className="flex items-center border rounded-md p-1 bg-background">
+            <Button
+              variant={viewMode === "grid" ? "secondary" : "ghost"}
+              size="sm"
+              className="px-3"
+              onClick={() => setViewMode("grid")}>
+              <LayoutGrid className="h-4 w-4" />
+            </Button>
+            <Button
+              variant={viewMode === "timeline" ? "secondary" : "ghost"}
+              size="sm"
+              className="px-3"
+              onClick={() => setViewMode("timeline")}>
+              <List className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
 
-      <div className="flex-1 rounded-xl bg-muted/10 p-4">
-        <JournalList
-          entries={filteredEntries || []}
-          isLoading={isLoading}
-          onEdit={handleEdit}
-        />
+      <div className="flex-1 min-h-0 rounded-xl bg-muted/10 p-4">
+        {viewMode === "grid" ? (
+          <JournalList
+            entries={filteredEntries || []}
+            isLoading={isLoading}
+            onEdit={handleEdit}
+          />
+        ) : (
+          <JournalTimeline
+            entries={filteredEntries || []}
+            isLoading={isLoading}
+            onEdit={handleEdit}
+          />
+        )}
       </div>
     </div>
   );
