@@ -19,6 +19,7 @@ import { Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AddTransactionDialog } from "./add-transaction-dialog";
 import { useStrategies } from "@/hooks/use-strategies";
+import { TransactionMobileList } from "./list/transaction-mobile-list";
 
 interface TransactionHistoryProps {
   assetId: string;
@@ -71,7 +72,14 @@ export function TransactionHistory({
           <AddTransactionDialog defaultAssetId={assetId} />
         </div>
       )}
-      <div className="rounded-md border">
+      <div className="md:hidden">
+        <TransactionMobileList
+          transactions={transactions}
+          strategies={strategies || []}
+          onRowClick={setSelectedTransaction}
+        />
+      </div>
+      <div className="hidden md:block rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
