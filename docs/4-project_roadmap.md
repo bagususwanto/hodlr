@@ -143,9 +143,8 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ## Documentation
 
-- [ ] README.md
-- [ ] User guide
-- [ ] Deployment guide
+- [x] README.md
+- [x] User guide
 
 ---
 
