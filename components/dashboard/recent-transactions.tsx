@@ -1,16 +1,25 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatCurrency } from "@/lib/utils";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Transaction } from "@/lib/db/schema";
-import { format } from "date-fns";
 import { ArrowUpRight, ArrowDownLeft, RefreshCcw } from "lucide-react";
+import { useCurrency, useDateFormatter } from "@/hooks/use-formatters";
 
 interface RecentTransactionsProps {
   transactions: (Transaction & { assetSymbol: string })[];
 }
 
 export function RecentTransactions({ transactions }: RecentTransactionsProps) {
+  const { formatCurrency } = useCurrency();
+  const { formatDate } = useDateFormatter();
+
   return (
     <Card>
       <CardHeader>
@@ -37,8 +46,8 @@ export function RecentTransactions({ transactions }: RecentTransactionsProps) {
                   <p className="text-sm font-medium leading-none">
                     {tx.type} {tx.assetSymbol}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    {format(new Date(tx.date), "MMM d, yyyy")}
+                  <p className="text-sm text-muted-foreground">
+                    {formatDate(tx.date)}
                   </p>
                 </div>
                 <div className="ml-auto font-medium">

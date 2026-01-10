@@ -1,9 +1,8 @@
 import { Transaction } from "@/lib/db/schema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { format } from "date-fns";
-import { formatCurrency } from "@/lib/utils";
 import { Strategy } from "@/lib/db/schema";
+import { useCurrency, useDateFormatter } from "@/hooks/use-formatters";
 
 interface TransactionMobileListProps {
   transactions: Transaction[];
@@ -16,6 +15,9 @@ export function TransactionMobileList({
   strategies,
   onRowClick,
 }: TransactionMobileListProps) {
+  const { formatCurrency } = useCurrency();
+  const { formatDate } = useDateFormatter();
+
   const getStrategyName = (strategyId?: string) => {
     if (!strategyId) return "-";
     const strategy = strategies?.find((s) => s.id === strategyId);
@@ -31,9 +33,7 @@ export function TransactionMobileList({
           onClick={() => onRowClick(transaction)}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex flex-col">
-              <span className="font-bold">
-                {format(new Date(transaction.date), "MMM d, yyyy")}
-              </span>
+              <span className="font-bold">{formatDate(transaction.date)}</span>
               <span className="text-xs text-muted-foreground pt-1">
                 {getStrategyName(transaction.strategyId)}
               </span>

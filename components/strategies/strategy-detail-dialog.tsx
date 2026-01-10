@@ -7,12 +7,12 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Strategy } from "@/lib/db/schema";
-import { format } from "date-fns";
 import { useAsset } from "@/hooks/use-assets";
 import { StrategyCardDcaInfo } from "./cards/strategy-card-dca-info";
 import { StrategyCardSwingInfo } from "./cards/strategy-card-swing-info";
 import { StrategyCardStats } from "./cards/strategy-card-stats";
 import { StrategyCardActions } from "./cards/strategy-card-actions";
+import { useDateFormatter } from "@/hooks/use-formatters";
 
 interface StrategyDetailDialogProps {
   strategy: Strategy | null;
@@ -32,6 +32,7 @@ export function StrategyDetailDialog({
   onToggleStatus,
 }: StrategyDetailDialogProps) {
   const { asset } = useAsset(strategy?.assetId || "");
+  const { formatDate } = useDateFormatter();
 
   if (!strategy) return null;
 
@@ -84,7 +85,7 @@ export function StrategyDetailDialog({
           </div>
 
           <div className="text-xs text-muted-foreground pt-2 border-t">
-            Creating Date: {format(new Date(strategy.startDate), "PPP")}
+            Creating Date: {formatDate(strategy.startDate)}
           </div>
 
           <StrategyCardActions

@@ -12,11 +12,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import { formatCurrency } from "@/lib/utils";
-import { Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCurrency, useDateFormatter } from "@/hooks/use-formatters";
+import { Loader2, Plus } from "lucide-react";
 import { AddTransactionDialog } from "./add-transaction-dialog";
 import { useStrategies } from "@/hooks/use-strategies";
 import { TransactionMobileList } from "./list/transaction-mobile-list";
@@ -34,6 +33,9 @@ export function TransactionHistory({
   const { strategies } = useStrategies();
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
+
+  const { formatCurrency } = useCurrency();
+  const { formatDate } = useDateFormatter();
 
   if (isLoading) {
     return (
@@ -99,9 +101,7 @@ export function TransactionHistory({
                 key={transaction.id}
                 className="cursor-pointer hover:bg-muted/50"
                 onClick={() => setSelectedTransaction(transaction)}>
-                <TableCell>
-                  {format(new Date(transaction.date), "MMM d, yyyy")}
-                </TableCell>
+                <TableCell>{formatDate(transaction.date)}</TableCell>
                 <TableCell>
                   <Badge
                     variant={

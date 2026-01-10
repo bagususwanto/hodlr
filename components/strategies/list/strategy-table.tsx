@@ -8,8 +8,6 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Strategy } from "@/lib/db/schema";
-import { format } from "date-fns";
-import { formatCurrency } from "@/lib/utils";
 import { useAssets } from "@/hooks/use-assets";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2, Pause, Play } from "lucide-react";
@@ -78,6 +76,8 @@ export function StrategyTable({
 import { useAsset } from "@/hooks/use-assets";
 import { useStrategyStats } from "@/hooks/use-strategy-stats";
 
+import { useCurrency, useDateFormatter } from "@/hooks/use-formatters";
+
 function StrategyTableRow({
   strategy,
   onClick,
@@ -93,6 +93,8 @@ function StrategyTableRow({
 }) {
   const { asset } = useAsset(strategy.assetId || "");
   const { stats } = useStrategyStats(strategy.id);
+  const { formatCurrency } = useCurrency();
+  const { formatDate } = useDateFormatter();
 
   const statusColor =
     strategy.status === "ACTIVE"
@@ -116,9 +118,7 @@ function StrategyTableRow({
       <TableCell className="text-right">
         {formatCurrency(stats?.totalInvested || 0)}
       </TableCell>
-      <TableCell>
-        {format(new Date(strategy.startDate), "MMM d, yyyy")}
-      </TableCell>
+      <TableCell>{formatDate(strategy.startDate)}</TableCell>
       <TableCell className="text-right">
         <div className="flex items-center justify-end gap-2">
           <Button

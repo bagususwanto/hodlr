@@ -1,36 +1,35 @@
-"use client";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatCurrency } from "@/lib/utils";
-import {
-  ArrowUpIcon,
-  ArrowDownIcon,
-  TrophyIcon,
-  ThumbsDownIcon,
-} from "lucide-react";
-
-interface PerformanceItem {
-  name: string;
-  symbol: string;
-  pnl: number;
-  pnlPercentage: number;
-}
+import { ArrowDown, ArrowUp, TrendingDown, TrendingUp } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useCurrency } from "@/hooks/use-formatters";
 
 interface PerformanceCardsProps {
-  bestPerformer?: PerformanceItem;
-  worstPerformer?: PerformanceItem;
+  bestPerformer?: {
+    name: string;
+    symbol: string;
+    pnl: number;
+    pnlPercentage: number;
+  };
+  worstPerformer?: {
+    name: string;
+    symbol: string;
+    pnl: number;
+    pnlPercentage: number;
+  };
 }
 
 export function PerformanceCards({
   bestPerformer,
   worstPerformer,
 }: PerformanceCardsProps) {
+  const { formatCurrency } = useCurrency();
+
   return (
     <div className="grid grid-cols-2 gap-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Best Performer</CardTitle>
-          <TrophyIcon className="h-4 w-4 text-yellow-500" />
+          <TrendingUp className="h-4 w-4 text-yellow-500" />
         </CardHeader>
         <CardContent>
           {bestPerformer ? (
@@ -45,7 +44,7 @@ export function PerformanceCards({
                 +{formatCurrency(bestPerformer.pnl)}
               </div>
               <p className="text-xs text-muted-foreground">
-                <ArrowUpIcon className="mr-1 inline h-3 w-3 text-green-500" />+
+                <ArrowUp className="mr-1 inline h-3 w-3 text-green-500" />+
                 {bestPerformer.pnlPercentage.toFixed(2)}%
               </p>
             </div>
@@ -59,7 +58,7 @@ export function PerformanceCards({
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Worst Performer</CardTitle>
-          <ThumbsDownIcon className="h-4 w-4 text-red-500" />
+          <TrendingDown className="h-4 w-4 text-red-500" />
         </CardHeader>
         <CardContent>
           {worstPerformer ? (
@@ -74,7 +73,7 @@ export function PerformanceCards({
                 {formatCurrency(worstPerformer.pnl)}
               </div>
               <p className="text-xs text-muted-foreground">
-                <ArrowDownIcon className="mr-1 inline h-3 w-3 text-red-500" />
+                <ArrowDown className="mr-1 inline h-3 w-3 text-red-500" />
                 {worstPerformer.pnlPercentage.toFixed(2)}%
               </p>
             </div>

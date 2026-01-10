@@ -8,8 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { format } from "date-fns";
-import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
@@ -28,6 +26,7 @@ import { useDeleteTransaction } from "@/hooks/use-transactions";
 import { toast } from "sonner";
 import { useState } from "react";
 import { TransactionForm } from "./transaction-form";
+import { useCurrency, useDateFormatter } from "@/hooks/use-formatters";
 
 interface TransactionDetailDialogProps {
   transaction: Transaction | null;
@@ -42,6 +41,8 @@ export function TransactionDetailDialog({
 }: TransactionDetailDialogProps) {
   const { deleteTransaction } = useDeleteTransaction();
   const [isEditing, setIsEditing] = useState(false);
+  const { formatCurrency } = useCurrency();
+  const { formatDate } = useDateFormatter();
 
   if (!transaction) return null;
 
@@ -76,9 +77,8 @@ export function TransactionDetailDialog({
           <DialogDescription>
             {isEditing
               ? "Make changes to your transaction here."
-              : `View details of your transaction on ${format(
-                  new Date(transaction.date),
-                  "PPP"
+              : `View details of your transaction on ${formatDate(
+                  transaction.date
                 )}.`}
           </DialogDescription>
         </DialogHeader>
@@ -134,7 +134,7 @@ export function TransactionDetailDialog({
               <div className="grid grid-cols-4 items-center gap-4">
                 <span className="font-medium text-muted-foreground">Date</span>
                 <span className="col-span-3">
-                  {format(new Date(transaction.date), "Pd")}
+                  {formatDate(transaction.date)}
                 </span>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">

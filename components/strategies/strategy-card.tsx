@@ -3,10 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Strategy } from "@/lib/db/schema";
-import { format } from "date-fns";
 import { useAsset } from "@/hooks/use-assets";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2, Pause, Play } from "lucide-react";
+import { useDateFormatter } from "@/hooks/use-formatters";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -35,6 +35,7 @@ export function StrategyCard({
   onToggleStatus,
 }: StrategyCardProps) {
   const { asset } = useAsset(strategy.assetId || "");
+  const { formatDate } = useDateFormatter();
 
   const statusColor =
     strategy.status === "ACTIVE"
@@ -62,7 +63,7 @@ export function StrategyCard({
             </p>
           )}
           <p className="text-xs text-muted-foreground pt-1">
-            Started: {format(new Date(strategy.startDate), "PP")}
+            Started: {formatDate(strategy.startDate)}
           </p>
         </div>
         <div className="flex items-center justify-end gap-2 mt-4 pt-4 border-t">

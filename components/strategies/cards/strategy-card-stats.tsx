@@ -1,7 +1,6 @@
-"use client";
-
 import { TrendingUp, Wallet } from "lucide-react";
 import { useStrategyStats } from "@/hooks/use-strategy-stats";
+import { useCurrency } from "@/hooks/use-formatters";
 
 interface StrategyCardStatsProps {
   strategyId: string;
@@ -13,6 +12,7 @@ export function StrategyCardStats({
   assetSymbol,
 }: StrategyCardStatsProps) {
   const { stats } = useStrategyStats(strategyId);
+  const { formatCurrency } = useCurrency();
 
   return (
     <div className="grid grid-cols-2 gap-2 pt-2 border-t text-xs">
@@ -21,10 +21,7 @@ export function StrategyCardStats({
           <Wallet className="h-3 w-3" /> Invested
         </span>
         <span className="font-medium">
-          {new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-          }).format(stats?.totalInvested || 0)}
+          {formatCurrency(stats?.totalInvested || 0)}
         </span>
       </div>
       <div className="flex flex-col text-right">

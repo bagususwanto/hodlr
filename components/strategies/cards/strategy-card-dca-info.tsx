@@ -1,10 +1,13 @@
 import { Strategy } from "@/lib/db/schema";
+import { useCurrency } from "@/hooks/use-formatters";
 
 interface StrategyCardDcaInfoProps {
   strategy: Strategy;
 }
 
 export function StrategyCardDcaInfo({ strategy }: StrategyCardDcaInfoProps) {
+  const { formatCurrency } = useCurrency();
+
   if (strategy.type !== "DCA") return null;
 
   return (
@@ -13,10 +16,7 @@ export function StrategyCardDcaInfo({ strategy }: StrategyCardDcaInfoProps) {
         <div className="flex justify-between">
           <span className="text-muted-foreground">Amount:</span>
           <span className="font-medium">
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-            }).format(strategy.config.amount)}
+            {formatCurrency(strategy.config.amount)}
           </span>
         </div>
       )}

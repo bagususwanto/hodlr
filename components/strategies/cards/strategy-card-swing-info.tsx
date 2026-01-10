@@ -1,4 +1,5 @@
 import { Strategy } from "@/lib/db/schema";
+import { useCurrency } from "@/hooks/use-formatters";
 
 interface StrategyCardSwingInfoProps {
   strategy: Strategy;
@@ -7,6 +8,8 @@ interface StrategyCardSwingInfoProps {
 export function StrategyCardSwingInfo({
   strategy,
 }: StrategyCardSwingInfoProps) {
+  const { formatCurrency } = useCurrency();
+
   if (strategy.type !== "SWING") return null;
 
   return (
@@ -15,7 +18,8 @@ export function StrategyCardSwingInfo({
         <div className="flex justify-between">
           <span className="text-muted-foreground">Entry:</span>
           <span>
-            {strategy.config.entryZone.min} - {strategy.config.entryZone.max}
+            {formatCurrency(strategy.config.entryZone.min)} -{" "}
+            {formatCurrency(strategy.config.entryZone.max)}
           </span>
         </div>
       )}
@@ -23,10 +27,7 @@ export function StrategyCardSwingInfo({
         <div className="flex justify-between">
           <span className="text-muted-foreground">TP:</span>
           <span className="text-green-500">
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-            }).format(strategy.config.takeProfit)}
+            {formatCurrency(strategy.config.takeProfit)}
           </span>
         </div>
       )}
@@ -34,17 +35,14 @@ export function StrategyCardSwingInfo({
         <div className="flex justify-between">
           <span className="text-muted-foreground">SL:</span>
           <span className="text-red-500">
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-            }).format(strategy.config.stopLoss)}
+            {formatCurrency(strategy.config.stopLoss)}
           </span>
         </div>
       )}
       {strategy.config.totalAllocation != null && (
         <div className="flex justify-between">
           <span className="text-muted-foreground">Alloc:</span>
-          <span>{strategy.config.totalAllocation}</span>
+          <span>{formatCurrency(strategy.config.totalAllocation)}</span>
         </div>
       )}
       {strategy.config.entryPlan && (

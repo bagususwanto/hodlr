@@ -1,7 +1,7 @@
-import { formatCurrency } from "@/lib/utils";
 import { Asset } from "@/lib/db/schema";
 import { useAssetStats } from "@/hooks/use-asset-stats";
 import { AssetStatCard } from "./cards/asset-stat-card";
+import { useCurrency } from "@/hooks/use-formatters";
 
 interface AssetSummaryProps {
   asset: Asset;
@@ -10,6 +10,7 @@ interface AssetSummaryProps {
 export function AssetSummary({ asset }: AssetSummaryProps) {
   const { holdings, avgCost, totalInvested, realizedPnL, realizedPnLPercent } =
     useAssetStats(asset.id);
+  const { formatCurrency } = useCurrency();
 
   // Helper helper to format percentage
   const formatPercent = (val: number) => {
