@@ -114,12 +114,12 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 5.1 Dashboard
 
-- [ ] Total Portfolio Value display
-- [ ] P&L overview (realized)
-- [ ] Portfolio allocation pie chart
-- [ ] Best/Worst performer cards
-- [ ] Recent transactions list
-- [ ] Quick action buttons
+- [x] Total Portfolio Value display
+- [x] P&L overview (realized)
+- [x] Portfolio allocation pie chart
+- [x] Best/Worst performer cards
+- [x] Recent transactions list
+- [x] Quick action buttons
 
 ### 5.2 Analytics Module
 
