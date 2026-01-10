@@ -135,9 +135,9 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 5.3 Reporting
 
-- [ ] Export ke PDF (jsPDF)
-- [ ] Export ke Excel (xlsx)
-- [ ] Monthly/Yearly report generator
+- [x] Export ke PDF (jsPDF)
+- [x] Export ke Excel (xlsx)
+- [x] Monthly/Yearly report generator
 
 ---
 
