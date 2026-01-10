@@ -46,8 +46,8 @@ export function ChartsSection({
   const activeAllocation = allocationData.filter((d) => d.value > 0);
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
-      <Card className="col-span-4 lg:col-span-4">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-7">
+      <Card className="col-span-1 md:col-span-2 lg:col-span-4">
         <CardHeader>
           <CardTitle>Portfolio Value</CardTitle>
           <CardDescription>
@@ -104,7 +104,7 @@ export function ChartsSection({
         </CardContent>
       </Card>
 
-      <Card className="col-span-3 lg:col-span-3">
+      <Card className="col-span-1 md:col-span-2 lg:col-span-3">
         <CardHeader>
           <CardTitle>Asset Allocation</CardTitle>
           <CardDescription>
@@ -169,7 +169,7 @@ export function ChartsSection({
         </CardContent>
       </Card>
 
-      <Card className="col-span-7 lg:col-span-7">
+      <Card className="col-span-1 md:col-span-2 lg:col-span-7">
         <CardHeader>
           <CardTitle>Return Per Asset (Realized)</CardTitle>
           <CardDescription>
