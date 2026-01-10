@@ -59,12 +59,14 @@ export default function AddAssetPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Ideally, we would save the asset here.
-    // For now, we'll pass the asset details via query params to the next step
-    // or just simulate it. Since we don't have a backend ready for this flow,
-    // we will navigate to the next step.
-    const queryString = new URLSearchParams(values).toString();
-    router.push(`/onboarding/add-transaction?${queryString}`);
+    // Pass asset details via query params to the next step
+    // We do NOT save here to prevent RouteGuard from redirecting early
+    const params = new URLSearchParams({
+      symbol: values.symbol,
+      name: values.name,
+      category: values.category,
+    });
+    router.push(`/onboarding/add-transaction?${params.toString()}`);
   }
 
   return (

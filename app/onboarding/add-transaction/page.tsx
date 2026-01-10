@@ -7,6 +7,10 @@ import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CalendarIcon, Check } from "lucide-react";
 import { format } from "date-fns";
+import { v4 as uuidv4 } from "uuid";
+import { db } from "@/lib/db";
+import { Asset, Transaction } from "@/lib/db/schema";
+import { toast } from "sonner"; // Assuming sonner is installed
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -56,6 +60,8 @@ const TransactionForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const symbol = searchParams.get("symbol") || "Asset";
+  const name = searchParams.get("name") || symbol;
+  const category = searchParams.get("category") || "crypto";
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,11 +73,50 @@ const TransactionForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Here we would submit both the asset (from params) and the transaction to the backend.
-    // For now, we simulate success and redirect to dashboard.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Submitting transaction:", values);
-    router.push("/");
+
+    try {
+      const assetId = uuidv4();
+      const transactionId = uuidv4();
+      const now = new Date();
+
+      const newAsset: Asset = {
+        id: assetId,
+        symbol: symbol,
+        name: name,
+        category: category,
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      const newTransaction: Transaction = {
+        id: transactionId,
+        assetId: assetId,
+        type: values.type.toUpperCase() as "BUY" | "SELL",
+        quantity: Number(values.qty),
+        price: Number(values.price),
+        totalValue: Number(values.qty) * Number(values.price),
+        date: values.date,
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      // Perform transaction to ensure both are saved or neither
+      await db.transaction("rw", db.assets, db.transactions, async () => {
+        await db.assets.add(newAsset);
+        await db.transactions.add(newTransaction);
+      });
+
+      toast.success("Portfolio setup complete!");
+      // Redirect using window.location to ensure RouteGuard sees the update immediately if needed,
+      // though simple router push mostly works.
+      // We'll stick to router.push but use window.location if we face issues with slow indexdb sync vs useLiveQuery
+      router.push("/");
+    } catch (error) {
+      console.error("Failed to save data:", error);
+      toast.error("Failed to setup portfolio. Please try again.");
+    }
   }
 
   return (
