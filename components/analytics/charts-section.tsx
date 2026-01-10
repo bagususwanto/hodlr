@@ -90,6 +90,12 @@ export function ChartsSection({
                   labelFormatter={(label) =>
                     new Date(label).toLocaleDateString()
                   }
+                  contentStyle={{
+                    backgroundColor: "var(--card)",
+                    borderColor: "var(--border)",
+                    color: "var(--card-foreground)",
+                  }}
+                  itemStyle={{ color: "var(--foreground)" }}
                 />
                 <Area
                   type="monotone"
@@ -137,6 +143,12 @@ export function ChartsSection({
                       formatCurrency(Number(value)),
                       "Invested",
                     ]}
+                    contentStyle={{
+                      backgroundColor: "var(--card)",
+                      borderColor: "var(--border)",
+                      color: "var(--card-foreground)",
+                    }}
+                    itemStyle={{ color: "var(--foreground)" }}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -195,11 +207,17 @@ export function ChartsSection({
                   tickFormatter={(value) => `$${value}`}
                 />
                 <Tooltip
-                  cursor={{ fill: "transparent" }}
+                  cursor={{ fill: "var(--muted)" }}
                   formatter={(value: any) => [
                     formatCurrency(Number(value)),
                     "Realized PnL",
                   ]}
+                  contentStyle={{
+                    backgroundColor: "var(--card)",
+                    borderColor: "var(--border)",
+                    color: "var(--card-foreground)",
+                  }}
+                  itemStyle={{ color: "var(--foreground)" }}
                 />
                 <Bar dataKey="value" radius={[4, 4, 0, 0]}>
                   {returnPerAssetData.map((entry, index) => (

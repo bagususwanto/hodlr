@@ -63,9 +63,11 @@ export function PortfolioAllocation({ data }: PortfolioAllocationProps) {
                 <Tooltip
                   formatter={(value: any) => formatCurrency(Number(value))}
                   contentStyle={{
-                    backgroundColor: "var(--background)",
+                    backgroundColor: "var(--card)",
                     borderColor: "var(--border)",
+                    color: "var(--card-foreground)",
                   }}
+                  itemStyle={{ color: "var(--foreground)" }}
                 />
                 <Legend
                   layout="vertical"
