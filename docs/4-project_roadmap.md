@@ -145,25 +145,25 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 6.1 Data Management
 
-- [ ] Export all data ke JSON
-- [ ] Import data dari JSON backup
-- [ ] Clear all data dengan konfirmasi
-- [ ] Storage usage display
+- [x] Export all data ke JSON
+- [x] Import data dari JSON backup
+- [x] Clear all data dengan konfirmasi
+- [x] Storage usage display
 
 ### 6.2 User Preferences
 
-- [ ] Dark/Light mode toggle
-- [ ] Currency preference (USD default)
-- [ ] Date format preference
-- [ ] Save preferences ke LocalStorage
+- [x] Dark/Light mode toggle
+- [x] Currency preference (USD default)
+- [x] Date format preference
+- [x] Save preferences ke LocalStorage
 
 ### 6.3 PWA Optimization
 
-- [ ] Service worker configuration
-- [ ] Offline caching strategy
-- [ ] App manifest
-- [ ] Install prompt
-- [ ] Splash screen
+- [x] Service worker configuration
+- [x] Offline caching strategy
+- [x] App manifest
+- [x] Install prompt
+- [x] Splash screen
 
 ---
 
