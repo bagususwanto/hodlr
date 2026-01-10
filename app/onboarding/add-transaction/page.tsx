@@ -44,16 +44,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { Textarea } from "@/components/ui/textarea";
 
+// Schema aligned with @/components/transactions/transaction-form.tsx
 const formSchema = z.object({
-  type: z.enum(["buy", "sell"]),
-  qty: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Quantity must be a positive number.",
-  }),
-  price: z.string().refine((val) => !isNaN(Number(val)) && Number(val) >= 0, {
-    message: "Price must be a non-negative number.",
-  }),
+  type: z.enum(["BUY", "SELL", "SWAP"]), // Expanded types but we might validly only use BUY/SELL for first transaction
+  qty: z.coerce.number().positive("Quantity must be positive"),
+  price: z.coerce.number().positive("Price must be positive"),
+  fee: z.coerce.number().min(0).optional(),
   date: z.date(),
+  notes: z.string().optional(),
+  tags: z.string().optional(),
 });
 
 const TransactionForm = () => {
@@ -62,14 +63,18 @@ const TransactionForm = () => {
   const symbol = searchParams.get("symbol") || "Asset";
   const name = searchParams.get("name") || symbol;
   const category = searchParams.get("category") || "crypto";
+  const exchange = searchParams.get("exchange") || "";
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema) as any,
     defaultValues: {
-      type: "buy",
-      qty: "",
-      price: "",
+      type: "BUY",
+      qty: 0,
+      price: 0,
+      fee: 0,
       date: new Date(),
+      notes: "",
+      tags: "",
     },
   });
 
@@ -86,18 +91,29 @@ const TransactionForm = () => {
         symbol: symbol,
         name: name,
         category: category,
+        exchange: exchange,
         createdAt: now,
         updatedAt: now,
       };
 
+      const tagsArray = values.tags
+        ? values.tags
+            .split(",")
+            .map((t) => t.trim())
+            .filter((t) => t)
+        : undefined;
+
       const newTransaction: Transaction = {
         id: transactionId,
         assetId: assetId,
-        type: values.type.toUpperCase() as "BUY" | "SELL",
-        quantity: Number(values.qty),
-        price: Number(values.price),
-        totalValue: Number(values.qty) * Number(values.price),
+        type: values.type,
+        quantity: values.qty,
+        price: values.price,
+        totalValue: values.qty * values.price,
+        fee: values.fee,
         date: values.date,
+        notes: values.notes,
+        tags: tagsArray,
         createdAt: now,
         updatedAt: now,
       };
@@ -109,9 +125,6 @@ const TransactionForm = () => {
       });
 
       toast.success("Portfolio setup complete!");
-      // Redirect using window.location to ensure RouteGuard sees the update immediately if needed,
-      // though simple router push mostly works.
-      // We'll stick to router.push but use window.location if we face issues with slow indexdb sync vs useLiveQuery
       router.push("/");
     } catch (error) {
       console.error("Failed to save data:", error);
@@ -129,7 +142,7 @@ const TransactionForm = () => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="type"
@@ -145,89 +158,159 @@ const TransactionForm = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="buy">Buy</SelectItem>
-                      <SelectItem value="sell">Sell</SelectItem>
+                      <SelectItem value="BUY">Buy</SelectItem>
+                      <SelectItem value="SELL">Sell</SelectItem>
+                      <SelectItem value="SWAP">Swap</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="qty"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Quantity</FormLabel>
-                  <FormControl>
-                    <Input placeholder="0.5" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    The amount of units bought or sold.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price per Unit</FormLabel>
-                  <FormControl>
-                    <Input placeholder="650000000" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    The price per unit at the time of transaction.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}>
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="qty"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Quantity</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        step="any"
+                        placeholder="0.5"
+                        {...field}
+                        value={field.value || ""}
                       />
-                    </PopoverContent>
-                  </Popover>
-                  <FormDescription>
-                    The date when this transaction occurred.
-                  </FormDescription>
+                    </FormControl>
+                    <FormDescription>Amount of units.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Price per Unit</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        step="any"
+                        placeholder="50000"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormDescription>Price in USD.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="fee"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fee</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        step="any"
+                        placeholder="0"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormDescription>Transaction fee.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}>
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags (comma separated)</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="dca, swing, high-risk"
+                      {...field}
+                      value={field.value || ""}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="notes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Notes</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Additional notes..."
+                      className="resize-none"
+                      {...field}
+                      value={field.value || ""}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <Button type="submit" className="w-full">
               Finish <Check className="ml-2 h-4 w-4" />
             </Button>
