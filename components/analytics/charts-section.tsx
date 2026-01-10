@@ -57,7 +57,7 @@ export function ChartsSection({
         <CardContent className="pl-2">
           <div className="h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={historyData}>
+              <AreaChart data={historyData} margin={{ left: 20 }}>
                 <defs>
                   <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
@@ -81,6 +81,7 @@ export function ChartsSection({
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => `$${value}`}
+                  width={80}
                 />
                 <Tooltip
                   formatter={(value: any) => [
@@ -191,7 +192,7 @@ export function ChartsSection({
         <CardContent>
           <div className="h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={returnPerAssetData}>
+              <BarChart data={returnPerAssetData} margin={{ left: 20 }}>
                 <XAxis
                   dataKey="symbol"
                   stroke="#888888"
@@ -205,6 +206,7 @@ export function ChartsSection({
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => `$${value}`}
+                  width={80}
                 />
                 <Tooltip
                   cursor={{ fill: "var(--muted)" }}
