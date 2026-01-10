@@ -36,6 +36,8 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
+import { RouteGuard } from "@/components/route-guard";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -50,7 +52,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          {children}
+          <RouteGuard>{children}</RouteGuard>
         </ThemeProvider>
       </body>
     </html>

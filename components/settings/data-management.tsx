@@ -7,7 +7,7 @@ import {
   clearData,
   getStorageUsage,
 } from "@/lib/data-management";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -190,7 +190,7 @@ export function DataManagement() {
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleClearData}
-                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  className={buttonVariants({ variant: "destructive" })}>
                   Clear Data
                 </AlertDialogAction>
               </AlertDialogFooter>
