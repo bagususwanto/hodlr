@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,9 +9,43 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowRight, Upload } from "lucide-react";
+import { ArrowRight, Upload, Loader2 } from "lucide-react";
+import { useRef, useState } from "react";
+import { importData } from "@/lib/data-management";
+import { toast } from "sonner"; // Assuming sonner is used for toasts
+import { useRouter } from "next/navigation";
 
 export default function WelcomePage() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setLoading(true);
+    try {
+      await importData(file);
+      toast.success("Data imported successfully");
+      // Redirect to dashboard, the route guard or standard flow will handle it
+      // but since we are client side, a router.push("/") should work
+      // or window.location.reload() to ensure fresh state if needed,
+      // but router.push("/") is cleaner spa navigation.
+      // Force reload might be safer for Dexie + hooks to sync up.
+      window.location.href = "/";
+    } catch (error) {
+      toast.error("Failed to import data");
+      console.error(error);
+    } finally {
+      setLoading(false);
+      // Reset input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center gap-6">
       <div className="text-center space-y-2">
@@ -43,13 +79,28 @@ export default function WelcomePage() {
           <CardHeader>
             <CardTitle>Import Data</CardTitle>
             <CardDescription>
-              Import your data from other platforms.
+              Import your data with backup file.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="outline" className="w-full" disabled>
-              <Upload className="ml-2 h-4 w-4" />
-              Import CSV (Coming Soon)
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImport}
+              accept=".json"
+              className="hidden"
+            />
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={loading}>
+              {loading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Upload className="mr-2 h-4 w-4" />
+              )}
+              Import Backup
             </Button>
           </CardContent>
         </Card>
