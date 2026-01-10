@@ -3,9 +3,32 @@ import { db } from "@/lib/db";
 import { Strategy } from "@/lib/db/schema";
 import { v4 as uuidv4 } from "uuid";
 
-export function useStrategies() {
-  const strategies = useLiveQuery(() => db.strategies.toArray());
-  return { strategies, isLoading: !strategies };
+interface UseStrategiesOptions {
+  page?: number;
+  pageSize?: number;
+}
+
+export function useStrategies(options?: UseStrategiesOptions) {
+  const { page, pageSize } = options || {};
+
+  const strategies = useLiveQuery(async () => {
+    const count = await db.strategies.count();
+
+    if (page && pageSize) {
+      const offset = (page - 1) * pageSize;
+      const data = await db.strategies.offset(offset).limit(pageSize).toArray();
+      return { data, total: count };
+    }
+
+    // Default (All)
+    const data = await db.strategies.toArray();
+    return { data, total: count };
+  }, [page, pageSize]);
+
+  const data = strategies?.data || [];
+  const totalCount = strategies?.total || 0;
+
+  return { strategies: data, totalCount, isLoading: !strategies };
 }
 
 export function useStrategy(id: string) {

@@ -14,6 +14,9 @@ interface JournalTimelineProps {
   onViewDetails: (entry: JournalEntry) => void;
 }
 
+import { useState } from "react";
+import { PaginationControls } from "@/components/ui/pagination-controls";
+
 export function JournalTimeline({
   entries,
   isLoading,
@@ -21,6 +24,9 @@ export function JournalTimeline({
   onDelete,
   onViewDetails,
 }: JournalTimelineProps) {
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+
   if (isLoading) {
     return (
       <div className="space-y-8">
@@ -55,10 +61,20 @@ export function JournalTimeline({
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
+  // Pagination Logic
+  const totalCount = sortedEntries.length;
+  const totalPages = Math.ceil(totalCount / pageSize);
+  const currentPage = page > totalPages && totalPages > 0 ? totalPages : page;
+
+  const paginatedEntries = sortedEntries.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   return (
     <div className="max-w-3xl mx-auto pl-4">
-      {sortedEntries.map((entry, index) => {
-        const isLast = index === sortedEntries.length - 1;
+      {paginatedEntries.map((entry, index) => {
+        const isLast = index === paginatedEntries.length - 1;
         return (
           <div key={entry.id} className="relative flex gap-6 pb-12 last:pb-0">
             {/* Timeline line */}
@@ -91,6 +107,14 @@ export function JournalTimeline({
           </div>
         );
       })}
+
+      <div className="mt-8">
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
+      </div>
     </div>
   );
 }

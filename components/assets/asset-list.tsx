@@ -14,11 +14,15 @@ export interface AssetListProps {
   onEdit: (asset: Asset) => void;
 }
 
+import { PaginationControls } from "@/components/ui/pagination-controls";
+
 export function AssetList({ assets, onEdit }: AssetListProps) {
   const router = useRouter();
   const { deleteAsset } = useDeleteAsset();
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [page, setPage] = useState(1);
+  const pageSize = 12;
 
   const filteredAssets = assets.filter((asset) => {
     const matchesSearch =
@@ -31,6 +35,16 @@ export function AssetList({ assets, onEdit }: AssetListProps) {
 
     return matchesSearch && matchesCategory;
   });
+
+  // Pagination Logic
+  const totalCount = filteredAssets.length;
+  const totalPages = Math.ceil(totalCount / pageSize);
+  const currentPage = page > totalPages && totalPages > 0 ? totalPages : page;
+
+  const paginatedAssets = filteredAssets.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   const handleDelete = async (id: string) => {
     try {
@@ -69,7 +83,7 @@ export function AssetList({ assets, onEdit }: AssetListProps) {
       />
       <div className="md:hidden">
         <AssetMobileList
-          assets={filteredAssets || []}
+          assets={paginatedAssets}
           onRowClick={handleRowClick}
           onEdit={onEdit}
           onDelete={handleDelete}
@@ -77,12 +91,18 @@ export function AssetList({ assets, onEdit }: AssetListProps) {
       </div>
       <div className="hidden md:block">
         <AssetTable
-          assets={filteredAssets || []}
+          assets={paginatedAssets}
           onRowClick={handleRowClick}
           onEdit={onEdit}
           onDelete={handleDelete}
         />
       </div>
+
+      <PaginationControls
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
     </div>
   );
 }

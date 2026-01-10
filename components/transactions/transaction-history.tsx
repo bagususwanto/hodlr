@@ -19,6 +19,7 @@ import { Loader2, Plus } from "lucide-react";
 import { AddTransactionDialog } from "./add-transaction-dialog";
 import { useStrategies } from "@/hooks/use-strategies";
 import { TransactionMobileList } from "./list/transaction-mobile-list";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 interface TransactionHistoryProps {
   assetId: string;
@@ -29,13 +30,22 @@ export function TransactionHistory({
   assetId,
   hideAddButton = false,
 }: TransactionHistoryProps) {
-  const { transactions, isLoading } = useTransactions(assetId);
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+
+  const { transactions, totalCount, isLoading } = useTransactions(assetId, {
+    page,
+    pageSize,
+  });
+
   const { strategies } = useStrategies();
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
 
   const { formatCurrency } = useCurrency();
   const { formatDate } = useDateFormatter();
+
+  const totalPages = Math.ceil((totalCount || 0) / pageSize);
 
   if (isLoading) {
     return (
@@ -45,7 +55,8 @@ export function TransactionHistory({
     );
   }
 
-  if (!transactions || transactions.length === 0) {
+  // Only show empty state if we are on page 1 and there are no transactions at all
+  if ((!transactions || transactions.length === 0) && page === 1) {
     return (
       <div className="flex flex-col items-center justify-center py-10 text-muted-foreground border border-dashed rounded-lg">
         <p>No transactions found.</p>
@@ -63,7 +74,8 @@ export function TransactionHistory({
 
   const getStrategyName = (strategyId?: string) => {
     if (!strategyId) return "-";
-    const strategy = strategies?.find((s) => s.id === strategyId);
+    const strategiesList = strategies || [];
+    const strategy = strategiesList.find((s) => s.id === strategyId);
     return strategy ? strategy.name : "Unknown Strategy";
   };
 
@@ -76,7 +88,7 @@ export function TransactionHistory({
       )}
       <div className="md:hidden">
         <TransactionMobileList
-          transactions={transactions}
+          transactions={transactions || []}
           strategies={strategies || []}
           onRowClick={setSelectedTransaction}
         />
@@ -96,7 +108,7 @@ export function TransactionHistory({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {transactions.map((transaction) => (
+            {transactions?.map((transaction) => (
               <TableRow
                 key={transaction.id}
                 className="cursor-pointer hover:bg-muted/50"
@@ -141,6 +153,13 @@ export function TransactionHistory({
           </TableBody>
         </Table>
       </div>
+
+      <PaginationControls
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
+
       <TransactionDetailDialog
         transaction={selectedTransaction}
         open={!!selectedTransaction}

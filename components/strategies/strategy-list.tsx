@@ -8,6 +8,8 @@ import { StrategyDetailDialog } from "./strategy-detail-dialog";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { PaginationControls } from "@/components/ui/pagination-controls";
+
 interface StrategyListProps {
   strategies: Strategy[];
   onEdit: (strategy: Strategy) => void;
@@ -16,11 +18,27 @@ interface StrategyListProps {
 export function StrategyList({ strategies, onEdit }: StrategyListProps) {
   const { deleteStrategy } = useDeleteStrategy();
   const { updateStrategy } = useUpdateStrategy();
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
 
   const [viewStrategyId, setViewStrategyId] = useState<string | null>(null);
 
   const strategyToView =
     strategies.find((s) => s.id === viewStrategyId) || null;
+
+  // Reset page when strategies length changes (e.g. search filter)
+  // We use key in parent often, but here useEffect is safer if parent doesn't remount
+  // However, pure client side:
+  const totalCount = strategies.length;
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  // Ensure current page is valid
+  const currentPage = page > totalPages && totalPages > 0 ? totalPages : page;
+
+  const paginatedStrategies = strategies.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   const handleDelete = async (id: string) => {
     try {
@@ -62,7 +80,7 @@ export function StrategyList({ strategies, onEdit }: StrategyListProps) {
       <div className="space-y-4">
         <div className="md:hidden">
           <StrategyMobileList
-            strategies={strategies}
+            strategies={paginatedStrategies}
             onViewDetails={(strategy) => setViewStrategyId(strategy.id)}
             onEdit={onEdit}
             onDelete={handleDelete}
@@ -71,13 +89,19 @@ export function StrategyList({ strategies, onEdit }: StrategyListProps) {
         </div>
         <div className="hidden md:block">
           <StrategyTable
-            strategies={strategies}
+            strategies={paginatedStrategies}
             onViewDetails={(strategy) => setViewStrategyId(strategy.id)}
             onEdit={onEdit}
             onDelete={handleDelete}
             onToggleStatus={handleToggleStatus}
           />
         </div>
+
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       </div>
 
       <StrategyDetailDialog
