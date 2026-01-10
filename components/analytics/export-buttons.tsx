@@ -30,9 +30,10 @@ export function ExportButtons({ data }: ExportButtonsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="hidden h-9 lg:flex">
+        <Button variant="outline" size="sm" className="h-9">
           <Download className="mr-2 h-4 w-4" />
-          Export Report
+          <span className="hidden lg:inline">Export Report</span>
+          <span className="lg:hidden">Export</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
