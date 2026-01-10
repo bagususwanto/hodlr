@@ -153,7 +153,7 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 ### 6.2 User Preferences
 
 - [ ] Dark/Light mode toggle
-- [ ] Currency preference (IDR default)
+- [ ] Currency preference (USD default)
 - [ ] Date format preference
 - [ ] Save preferences ke LocalStorage
 
