@@ -29,7 +29,7 @@ export default function AnalyticsPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <div className="flex items-center justify-between space-y-2">
+      <div className="flex flex-col space-y-2 md:flex-row md:items-center md:justify-between md:space-y-0">
         <h2 className="text-3xl font-bold tracking-tight">Analytics</h2>
         <div className="flex items-center space-x-2">
           <ExportButtons data={reportData} />

@@ -8,7 +8,6 @@ import { PerformanceCards } from "@/components/dashboard/performance-cards";
 import { RecentTransactions } from "@/components/dashboard/recent-transactions";
 import { QuickActions } from "@/components/dashboard/quick-actions";
 import { useMemo } from "react";
-import { Transaction } from "@/lib/db/schema";
 
 export default function DashboardPage() {
   const { assets } = useAssets();
