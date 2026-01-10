@@ -141,59 +141,11 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ---
 
-## Phase 6: Settings & Polish (Week 12-13)
-
-### 6.1 Data Management
-
-- [x] Export all data ke JSON
-- [x] Import data dari JSON backup
-- [x] Clear all data dengan konfirmasi
-- [x] Storage usage display
-
-### 6.2 User Preferences
-
-- [x] Dark/Light mode toggle
-- [x] Currency preference (USD default)
-- [x] Date format preference
-- [x] Save preferences ke LocalStorage
-
-### 6.3 PWA Optimization
-
-- [x] Service worker configuration
-- [x] Offline caching strategy
-- [x] App manifest
-- [x] Install prompt
-- [x] Splash screen
-
----
-
-## Phase 7: Testing & Launch (Week 14)
-
-### 7.1 Testing
-
-- [ ] Manual testing semua fitur
-- [ ] Cross-browser testing (Chrome, Safari, Firefox)
-- [ ] Mobile responsive testing
-- [ ] PWA installation testing
-- [ ] Offline mode testing
-
-### 7.2 Bug Fixes & Polish
-
-- [ ] Fix bugs dari testing
-- [ ] Performance optimization
-- [ ] UX improvements
-
-### 7.3 Documentation
+## Documentation
 
 - [ ] README.md
 - [ ] User guide
 - [ ] Deployment guide
-
-### 7.4 Deployment
-
-- [ ] Build production bundle
-- [ ] Deploy ke hosting (Vercel/Netlify)
-- [ ] Setup custom domain (optional)
 
 ---
 
