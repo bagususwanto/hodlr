@@ -1,8 +1,11 @@
 "use client";
 
 import { Strategy } from "@/lib/db/schema";
-import { StrategyCard } from "./strategy-card";
+import { StrategyTable } from "./list/strategy-table";
+import { StrategyMobileList } from "./list/strategy-mobile-list";
 import { useDeleteStrategy, useUpdateStrategy } from "@/hooks/use-strategies";
+import { StrategyDetailDialog } from "./strategy-detail-dialog";
+import { useState } from "react";
 import { toast } from "sonner";
 
 interface StrategyListProps {
@@ -13,6 +16,8 @@ interface StrategyListProps {
 export function StrategyList({ strategies, onEdit }: StrategyListProps) {
   const { deleteStrategy } = useDeleteStrategy();
   const { updateStrategy } = useUpdateStrategy();
+
+  const [viewStrategy, setViewStrategy] = useState<Strategy | null>(null);
 
   const handleDelete = async (id: string) => {
     try {
@@ -47,16 +52,30 @@ export function StrategyList({ strategies, onEdit }: StrategyListProps) {
   }
 
   return (
-    <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-      {strategies.map((strategy) => (
-        <StrategyCard
-          key={strategy.id}
-          strategy={strategy}
-          onEdit={onEdit}
-          onDelete={handleDelete}
-          onToggleStatus={handleToggleStatus}
-        />
-      ))}
-    </div>
+    <>
+      <div className="space-y-4">
+        <div className="md:hidden">
+          <StrategyMobileList
+            strategies={strategies}
+            onViewDetails={setViewStrategy}
+          />
+        </div>
+        <div className="hidden md:block">
+          <StrategyTable
+            strategies={strategies}
+            onViewDetails={setViewStrategy}
+          />
+        </div>
+      </div>
+
+      <StrategyDetailDialog
+        strategy={viewStrategy}
+        open={!!viewStrategy}
+        onOpenChange={(open) => !open && setViewStrategy(null)}
+        onEdit={onEdit}
+        onDelete={handleDelete}
+        onToggleStatus={handleToggleStatus}
+      />
+    </>
   );
 }
