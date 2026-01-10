@@ -12,6 +12,7 @@ import { Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DashboardBreadcrumb } from "@/components/dashboard-breadcrumb";
+import { Footer } from "@/components/footer";
 
 export default function DashboardLayout({
   children,
@@ -23,7 +24,10 @@ export default function DashboardLayout({
       {/* Mobile Layout */}
       <div className="flex min-h-svh flex-col md:hidden">
         <MobileHeader />
-        <main className="flex-1 p-4 pb-20">{children}</main>
+        <main className="flex-1 p-4 pb-20">
+          {children}
+          <Footer />
+        </main>
         <MobileNav />
       </div>
 
@@ -49,6 +53,9 @@ export default function DashboardLayout({
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
               {children}
+            </div>
+            <div className="p-4 pt-0">
+              <Footer />
             </div>
           </SidebarInset>
         </SidebarProvider>
