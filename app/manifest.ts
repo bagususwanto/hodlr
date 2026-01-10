@@ -30,7 +30,31 @@ export default function manifest(): MetadataRoute.Manifest {
         form_factor: "narrow",
       },
       {
+        src: "/screenshots/mobile-2.png",
+        sizes: "1024x1024",
+        type: "image/png",
+        form_factor: "narrow",
+      },
+      {
+        src: "/screenshots/mobile-3.png",
+        sizes: "1024x1024",
+        type: "image/png",
+        form_factor: "narrow",
+      },
+      {
         src: "/screenshots/desktop.png",
+        sizes: "1024x1024",
+        type: "image/png",
+        form_factor: "wide",
+      },
+      {
+        src: "/screenshots/desktop-2.png",
+        sizes: "1024x1024",
+        type: "image/png",
+        form_factor: "wide",
+      },
+      {
+        src: "/screenshots/desktop-3.png",
         sizes: "1024x1024",
         type: "image/png",
         form_factor: "wide",
