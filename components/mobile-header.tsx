@@ -1,7 +1,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Settings } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const pageTitles: Record<string, string> = {
   "/": "Dashboard",
@@ -46,7 +48,12 @@ export function MobileHeader() {
           </>
         )}
       </div>
-      <ThemeToggle />
+      <Button variant="ghost" size="icon" asChild>
+        <Link href="/settings">
+          <Settings className="h-5 w-5" />
+          <span className="sr-only">Settings</span>
+        </Link>
+      </Button>
     </header>
   );
 }

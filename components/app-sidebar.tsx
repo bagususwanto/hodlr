@@ -6,7 +6,6 @@ import {
   BookOpen,
   LayoutDashboard,
   PieChart,
-  Settings,
   Wallet,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -48,11 +47,6 @@ const data = {
       title: "Analytics",
       url: "/analytics",
       icon: BarChart3,
-    },
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings,
     },
   ],
 };

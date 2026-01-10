@@ -1,12 +1,15 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { MobileNav } from "@/components/mobile-nav";
 import { MobileHeader } from "@/components/mobile-header";
-import { ThemeToggle } from "@/components/theme-toggle";
+
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
+import { Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DashboardBreadcrumb } from "@/components/dashboard-breadcrumb";
 
@@ -36,7 +39,12 @@ export default function DashboardLayout({
                 <DashboardBreadcrumb />
               </div>
               <div className="px-4">
-                <ThemeToggle />
+                <Button variant="ghost" size="icon" asChild>
+                  <Link href="/settings">
+                    <Settings className="h-5 w-5" />
+                    <span className="sr-only">Settings</span>
+                  </Link>
+                </Button>
               </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
