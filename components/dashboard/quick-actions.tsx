@@ -21,7 +21,7 @@ export function QuickActions() {
   const router = useRouter();
 
   return (
-    <Card className="col-span-4 lg:col-span-1">
+    <Card className="md:col-span-4 lg:col-span-1">
       <CardHeader>
         <CardTitle>Quick Actions</CardTitle>
       </CardHeader>

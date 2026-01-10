@@ -38,7 +38,7 @@ export function PortfolioAllocation({ data }: PortfolioAllocationProps) {
   }, [data]);
 
   return (
-    <Card className="col-span-4">
+    <Card className="md:col-span-3">
       <CardHeader>
         <CardTitle>Portfolio Allocation</CardTitle>
       </CardHeader>

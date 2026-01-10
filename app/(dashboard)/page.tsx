@@ -184,7 +184,7 @@ export default function DashboardPage() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <PortfolioAllocation data={dashboardData.allocationData} />
-        <div className="col-span-4 lg:col-span-3 flex flex-col gap-4">
+        <div className="lg:col-span-4 flex flex-col gap-4">
           <PerformanceCards
             bestPerformer={dashboardData.bestPerformer}
             worstPerformer={dashboardData.worstPerformer}
