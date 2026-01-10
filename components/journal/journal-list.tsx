@@ -1,29 +1,26 @@
 "use client";
 
 import { JournalEntry } from "@/lib/db/schema";
-import { JournalCard } from "./journal-card";
-import { useDeleteJournalEntry } from "@/hooks/use-journal";
-import { toast } from "sonner";
+// JournalCard import removed
 import { Skeleton } from "@/components/ui/skeleton";
+import { JournalTable } from "./list/journal-table";
+import { JournalMobileList } from "./list/journal-mobile-list";
 
 interface JournalListProps {
   entries: JournalEntry[];
   isLoading: boolean;
   onEdit: (entry: JournalEntry) => void;
+  onDelete: (id: string) => void;
+  onViewDetails: (entry: JournalEntry) => void;
 }
 
-export function JournalList({ entries, isLoading, onEdit }: JournalListProps) {
-  const { deleteEntry } = useDeleteJournalEntry();
-
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteEntry(id);
-      toast.success("Journal entry deleted");
-    } catch {
-      toast.error("Failed to delete entry");
-    }
-  };
-
+export function JournalList({
+  entries,
+  isLoading,
+  onEdit,
+  onDelete,
+  onViewDetails,
+}: JournalListProps) {
   if (isLoading) {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -40,7 +37,7 @@ export function JournalList({ entries, isLoading, onEdit }: JournalListProps) {
         <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
           <h3 className="mt-4 text-lg font-semibold">No entries</h3>
           <p className="mb-4 mt-2 text-sm text-muted-foreground">
-            You haven&apos;t created any journal entries yet.
+            You haven't created any journal entries yet.
           </p>
         </div>
       </div>
@@ -48,15 +45,23 @@ export function JournalList({ entries, isLoading, onEdit }: JournalListProps) {
   }
 
   return (
-    <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-      {entries.map((entry) => (
-        <JournalCard
-          key={entry.id}
-          entry={entry}
+    <div className="space-y-4">
+      <div className="md:hidden">
+        <JournalMobileList
+          entries={entries}
+          onViewDetails={onViewDetails}
           onEdit={onEdit}
-          onDelete={handleDelete}
+          onDelete={onDelete}
         />
-      ))}
+      </div>
+      <div className="hidden md:block">
+        <JournalTable
+          entries={entries}
+          onViewDetails={onViewDetails}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      </div>
     </div>
   );
 }

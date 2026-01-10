@@ -20,28 +20,30 @@ import {
 
 interface JournalCardProps {
   entry: JournalEntry;
+  onClick: () => void;
   onEdit: (entry: JournalEntry) => void;
   onDelete: (id: string) => void;
 }
 
-export function JournalCard({ entry, onEdit, onDelete }: JournalCardProps) {
-  // Truncate content for preview
-  const preview =
-    entry.content.length > 150
-      ? entry.content.substring(0, 150) + "..."
-      : entry.content;
-
+export function JournalCard({
+  entry,
+  onClick,
+  onEdit,
+  onDelete,
+}: JournalCardProps) {
   const typeColor =
     entry.type === "PRE_TRADE"
-      ? "default" // or specific color
+      ? "default"
       : entry.type === "POST_TRADE"
       ? "secondary"
       : entry.type === "ANALYSIS"
       ? "outline"
-      : "secondary"; // NOTE
+      : "secondary";
 
   return (
-    <Card className="flex flex-col h-full hover:shadow-md transition-shadow">
+    <Card
+      className="flex flex-col h-full hover:shadow-md transition-shadow cursor-pointer hover:bg-muted/50"
+      onClick={onClick}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle
           className="text-sm font-medium line-clamp-1"
@@ -54,13 +56,10 @@ export function JournalCard({ entry, onEdit, onDelete }: JournalCardProps) {
         <div className="text-xs text-muted-foreground">
           {format(new Date(entry.date), "PPP")}
         </div>
-        <div className="text-sm text-foreground/80 flex-1 line-clamp-4 whitespace-pre-wrap">
-          {preview}
-        </div>
 
         {(entry.tags && entry.tags.length > 0) ||
         (entry.attachments && entry.attachments.length > 0) ? (
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="flex flex-wrap gap-2 mt-auto">
             {entry.tags?.map((tag) => (
               <Badge
                 key={tag}
@@ -77,12 +76,15 @@ export function JournalCard({ entry, onEdit, onDelete }: JournalCardProps) {
           </div>
         ) : null}
 
-        <div className="flex justify-end gap-2 pt-4 mt-auto border-t">
+        <div className="flex justify-end gap-2 pt-2 mt-auto border-t">
           <Button
             variant="ghost"
             size="icon"
             className="h-8 w-8"
-            onClick={() => onEdit(entry)}>
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(entry);
+            }}>
             <Pencil className="h-4 w-4" />
             <span className="sr-only">Edit</span>
           </Button>
@@ -92,23 +94,29 @@ export function JournalCard({ entry, onEdit, onDelete }: JournalCardProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-destructive hover:text-destructive/90">
+                className="h-8 w-8 text-destructive hover:text-destructive/90"
+                onClick={(e) => e.stopPropagation()}>
                 <Trash2 className="h-4 w-4" />
                 <span className="sr-only">Delete</span>
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent onClick={(e) => e.stopPropagation()}>
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action cannot be undone. This will permanently delete the
-                  journal entry &quot;{entry.title}&quot;.
+                  journal entry "{entry.title}".
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
+                  Cancel
+                </AlertDialogCancel>
                 <AlertDialogAction
-                  onClick={() => onDelete(entry.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(entry.id);
+                  }}
                   className={buttonVariants({ variant: "destructive" })}>
                   Delete
                 </AlertDialogAction>

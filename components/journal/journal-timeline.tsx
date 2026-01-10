@@ -3,32 +3,24 @@
 import { JournalEntry } from "@/lib/db/schema";
 import { format } from "date-fns";
 import { JournalCard } from "./journal-card";
-import { useDeleteJournalEntry } from "@/hooks/use-journal";
-import { toast } from "sonner";
+// Imports removed
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface JournalTimelineProps {
   entries: JournalEntry[];
   isLoading: boolean;
   onEdit: (entry: JournalEntry) => void;
+  onDelete: (id: string) => void;
+  onViewDetails: (entry: JournalEntry) => void;
 }
 
 export function JournalTimeline({
   entries,
   isLoading,
   onEdit,
+  onDelete,
+  onViewDetails,
 }: JournalTimelineProps) {
-  const { deleteEntry } = useDeleteJournalEntry();
-
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteEntry(id);
-      toast.success("Journal entry deleted");
-    } catch {
-      toast.error("Failed to delete entry");
-    }
-  };
-
   if (isLoading) {
     return (
       <div className="space-y-8">
@@ -51,7 +43,7 @@ export function JournalTimeline({
         <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
           <h3 className="mt-4 text-lg font-semibold">No entries</h3>
           <p className="mb-4 mt-2 text-sm text-muted-foreground">
-            You haven&apos;t created any journal entries yet.
+            You haven't created any journal entries yet.
           </p>
         </div>
       </div>
@@ -91,8 +83,9 @@ export function JournalTimeline({
               </div>
               <JournalCard
                 entry={entry}
+                onClick={() => onViewDetails(entry)}
                 onEdit={onEdit}
-                onDelete={handleDelete}
+                onDelete={onDelete}
               />
             </div>
           </div>

@@ -17,12 +17,18 @@ export function StrategyList({ strategies, onEdit }: StrategyListProps) {
   const { deleteStrategy } = useDeleteStrategy();
   const { updateStrategy } = useUpdateStrategy();
 
-  const [viewStrategy, setViewStrategy] = useState<Strategy | null>(null);
+  const [viewStrategyId, setViewStrategyId] = useState<string | null>(null);
+
+  const strategyToView =
+    strategies.find((s) => s.id === viewStrategyId) || null;
 
   const handleDelete = async (id: string) => {
     try {
       await deleteStrategy(id);
       toast.success("Strategy deleted");
+      if (viewStrategyId === id) {
+        setViewStrategyId(null);
+      }
     } catch (error) {
       toast.error("Failed to delete strategy.");
     }
@@ -57,21 +63,27 @@ export function StrategyList({ strategies, onEdit }: StrategyListProps) {
         <div className="md:hidden">
           <StrategyMobileList
             strategies={strategies}
-            onViewDetails={setViewStrategy}
+            onViewDetails={(strategy) => setViewStrategyId(strategy.id)}
+            onEdit={onEdit}
+            onDelete={handleDelete}
+            onToggleStatus={handleToggleStatus}
           />
         </div>
         <div className="hidden md:block">
           <StrategyTable
             strategies={strategies}
-            onViewDetails={setViewStrategy}
+            onViewDetails={(strategy) => setViewStrategyId(strategy.id)}
+            onEdit={onEdit}
+            onDelete={handleDelete}
+            onToggleStatus={handleToggleStatus}
           />
         </div>
       </div>
 
       <StrategyDetailDialog
-        strategy={viewStrategy}
-        open={!!viewStrategy}
-        onOpenChange={(open) => !open && setViewStrategy(null)}
+        strategy={strategyToView}
+        open={!!strategyToView}
+        onOpenChange={(open) => !open && setViewStrategyId(null)}
         onEdit={onEdit}
         onDelete={handleDelete}
         onToggleStatus={handleToggleStatus}

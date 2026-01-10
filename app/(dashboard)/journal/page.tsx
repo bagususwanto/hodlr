@@ -11,18 +11,39 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { JournalList } from "@/components/journal/journal-list";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { JournalTimeline } from "@/components/journal/journal-timeline";
 import { JournalForm } from "@/components/journal/journal-form";
-import { useJournalEntries } from "@/hooks/use-journal";
+import { useJournalEntries, useDeleteJournalEntry } from "@/hooks/use-journal";
 import { JournalEntry } from "@/lib/db/schema";
+import { JournalDetailDialog } from "@/components/journal/journal-detail-dialog";
+import { toast } from "sonner";
+import { JournalList } from "@/components/journal/journal-list";
 
 export default function JournalPage() {
   const { entries, isLoading } = useJournalEntries();
+  const { deleteEntry } = useDeleteJournalEntry();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry | undefined>(
     undefined
   );
+  const [viewEntry, setViewEntry] = useState<JournalEntry | null>(null);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteEntry(id);
+      toast.success("Journal entry deleted");
+    } catch {
+      toast.error("Failed to delete entry");
+    }
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("ALL");
@@ -88,8 +109,8 @@ export default function JournalPage() {
           </Dialog>
         </div>
 
-        <div className="flex gap-4 items-center">
-          <div className="flex-1">
+        <div className="grid grid-cols-3 gap-4 md:flex md:items-center">
+          <div className="col-span-3 md:flex-1">
             <input
               type="text"
               placeholder="Search by title, content, or tags..."
@@ -98,28 +119,30 @@ export default function JournalPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <select
-            className="rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}>
-            <option value="ALL">All Types</option>
-            <option value="PRE_TRADE">Pre-Trade</option>
-            <option value="POST_TRADE">Post-Trade</option>
-            <option value="ANALYSIS">Analysis</option>
-            <option value="NOTE">Note</option>
-          </select>
-          <div className="flex items-center border rounded-md p-1 bg-background">
+          <Select value={typeFilter} onValueChange={setTypeFilter}>
+            <SelectTrigger className="col-span-2 md:w-[180px]">
+              <SelectValue placeholder="All Types" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">All Types</SelectItem>
+              <SelectItem value="PRE_TRADE">Pre-Trade</SelectItem>
+              <SelectItem value="POST_TRADE">Post-Trade</SelectItem>
+              <SelectItem value="ANALYSIS">Analysis</SelectItem>
+              <SelectItem value="NOTE">Note</SelectItem>
+            </SelectContent>
+          </Select>
+          <div className="col-span-1 flex items-center justify-center border rounded-md p-0.5 bg-background md:w-auto">
             <Button
               variant={viewMode === "grid" ? "secondary" : "ghost"}
-              size="sm"
-              className="px-3"
+              size="icon-sm"
+              className="px-3 flex-1 md:flex-none"
               onClick={() => setViewMode("grid")}>
               <LayoutGrid className="h-4 w-4" />
             </Button>
             <Button
               variant={viewMode === "timeline" ? "secondary" : "ghost"}
-              size="sm"
-              className="px-3"
+              size="icon-sm"
+              className="px-3 flex-1 md:flex-none"
               onClick={() => setViewMode("timeline")}>
               <List className="h-4 w-4" />
             </Button>
@@ -133,15 +156,28 @@ export default function JournalPage() {
             entries={filteredEntries || []}
             isLoading={isLoading}
             onEdit={handleEdit}
+            onDelete={handleDelete}
+            onViewDetails={setViewEntry}
           />
         ) : (
           <JournalTimeline
             entries={filteredEntries || []}
             isLoading={isLoading}
             onEdit={handleEdit}
+            onDelete={handleDelete}
+            onViewDetails={setViewEntry}
           />
         )}
       </div>
+
+      <JournalDetailDialog
+        entry={viewEntry}
+        open={!!viewEntry}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onOpenChange={(open: any) => !open && setViewEntry(null)}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }
