@@ -412,3 +412,71 @@ export function generateAssetAllocation(
 
   return result.sort((a, b) => b.value - a.value);
 }
+
+/**
+ * Generates data for Return Per Asset (Bar Chart).
+ * Calculates Total Return (Realized + Unrealized) for each asset.
+ * Returns: { name: string, value: number, symbol: string }[] sorted by value desc
+ */
+export function generateReturnPerAsset(
+  transactions: Transaction[],
+  assets: any[]
+): { name: string; value: number; symbol: string }[] {
+  // 1. Calculate Realized PnL per asset
+  const assetStates = new Map<
+    string,
+    {
+      quantity: number;
+      totalCost: number;
+      realizedPnL: number;
+    }
+  >();
+
+  const sortedTxs = [...transactions].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+
+  for (const t of sortedTxs) {
+    const state = assetStates.get(t.assetId) || {
+      quantity: 0,
+      totalCost: 0,
+      realizedPnL: 0,
+    };
+
+    if (t.type === "BUY") {
+      state.quantity += t.quantity;
+      state.totalCost += t.quantity * t.price;
+    } else if (t.type === "SELL" || t.type === "SWAP") {
+      const avgCost = state.quantity > 0 ? state.totalCost / state.quantity : 0;
+      const tradeCostBasis = t.quantity * avgCost;
+      const tradeValue = t.quantity * t.price;
+      const tradePnL = tradeValue - tradeCostBasis;
+
+      state.realizedPnL += tradePnL;
+      state.quantity -= t.quantity;
+      state.totalCost -= tradeCostBasis;
+
+      if (state.quantity <= 0) {
+        state.quantity = 0;
+        state.totalCost = 0;
+      }
+    }
+    assetStates.set(t.assetId, state);
+  }
+
+  // 2. Return Realized PnL (as we lack current price for Unrealized)
+  const result: { name: string; value: number; symbol: string }[] = [];
+
+  for (const [assetId, state] of assetStates.entries()) {
+    if (Math.abs(state.realizedPnL) > 0.01) {
+      const asset = assets.find((a) => a.id === assetId);
+      result.push({
+        name: asset?.name || "Unknown",
+        symbol: asset?.symbol || "???",
+        value: state.realizedPnL,
+      });
+    }
+  }
+
+  return result.sort((a, b) => b.value - a.value);
+}

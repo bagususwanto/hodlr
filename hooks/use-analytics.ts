@@ -7,6 +7,7 @@ import {
   calculateWinRate,
   generateAssetAllocation,
   generatePortfolioHistory,
+  generateReturnPerAsset,
 } from "@/lib/finance";
 import { useMemo, useState } from "react";
 import { subDays, isAfter } from "date-fns";
@@ -72,6 +73,7 @@ export function useAnalytics() {
     // Allocation is typically "Current Allocation" regardless of period filter in most apps,
     // unless "Allocation at end of period". We will use Current Allocation (All Transactions).
     const allocationData = generateAssetAllocation(transactions, assets);
+    const returnPerAssetData = generateReturnPerAsset(transactions, assets);
 
     // Total Invested is "Current", so use All Transactions
     const totalInvested = calculateTotalInvested(transactions);
@@ -86,6 +88,7 @@ export function useAnalytics() {
       transactionCount: filteredTransactions.length,
       historyData,
       allocationData,
+      returnPerAssetData,
     };
   }, [data, period]);
 
@@ -94,5 +97,6 @@ export function useAnalytics() {
     setPeriod,
     metrics,
     isLoading: !data,
+    rawData: data,
   };
 }

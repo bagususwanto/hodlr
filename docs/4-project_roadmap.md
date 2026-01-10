@@ -123,15 +123,15 @@ Roadmap pengembangan aplikasi Hodlr - PWA manajemen portfolio investasi dengan p
 
 ### 5.2 Analytics Module
 
-- [ ] Performance metrics:
-  - [ ] Total Return
-  - [ ] Win Rate
-  - [ ] Average Win vs Average Loss
+- [x] Performance metrics:
+  - [x] Total Return
+  - [x] Win Rate
+  - [x] Average Win vs Average Loss
 - [ ] Visualizations:
-  - [ ] Portfolio value over time (line chart)
-  - [ ] Asset allocation (pie chart)
+  - [x] Portfolio value over time (line chart)
+  - [x] Asset allocation (pie chart)
   - [ ] Return per asset (bar chart)
-- [ ] Period filter (7d, 30d, 90d, 1y, All time, Custom)
+- [x] Period filter (7d, 30d, 90d, 1y, All time, Custom)
 
 ### 5.3 Reporting
 

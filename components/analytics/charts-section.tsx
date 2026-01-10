@@ -11,6 +11,8 @@ import { formatCurrency } from "@/lib/utils";
 import {
   Area,
   AreaChart,
+  Bar,
+  BarChart,
   Cell,
   Pie,
   PieChart,
@@ -23,6 +25,7 @@ import {
 interface ChartsSectionProps {
   historyData: { date: string; value: number }[];
   allocationData: { name: string; value: number; symbol: string }[];
+  returnPerAssetData: { name: string; value: number; symbol: string }[];
 }
 
 const COLORS = [
@@ -37,6 +40,7 @@ const COLORS = [
 export function ChartsSection({
   historyData,
   allocationData,
+  returnPerAssetData,
 }: ChartsSectionProps) {
   // Filter out zero values for allocation
   const activeAllocation = allocationData.filter((d) => d.value > 0);
@@ -161,6 +165,52 @@ export function ChartsSection({
                 </span>
               </div>
             ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="col-span-7 lg:col-span-7">
+        <CardHeader>
+          <CardTitle>Return Per Asset (Realized)</CardTitle>
+          <CardDescription>
+            Total realized profit/loss by asset.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[350px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={returnPerAssetData}>
+                <XAxis
+                  dataKey="symbol"
+                  stroke="#888888"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  stroke="#888888"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(value) => `$${value}`}
+                />
+                <Tooltip
+                  cursor={{ fill: "transparent" }}
+                  formatter={(value: any) => [
+                    formatCurrency(Number(value)),
+                    "Realized PnL",
+                  ]}
+                />
+                <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                  {returnPerAssetData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.value >= 0 ? "#22c55e" : "#ef4444"}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </CardContent>
       </Card>
