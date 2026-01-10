@@ -132,6 +132,30 @@ const TransactionForm = () => {
     }
   }
 
+  async function handleSkip() {
+    try {
+      const assetId = uuidv4();
+      const now = new Date();
+
+      const newAsset: Asset = {
+        id: assetId,
+        symbol: symbol,
+        name: name,
+        category: category,
+        exchange: exchange,
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      await db.assets.add(newAsset);
+      toast.success("Asset added successfully!");
+      router.push("/");
+    } catch (error) {
+      console.error("Failed to save asset:", error);
+      toast.error("Failed to skip. Please try again.");
+    }
+  }
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -311,9 +335,18 @@ const TransactionForm = () => {
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Finish <Check className="ml-2 h-4 w-4" />
-            </Button>
+            <div className="flex flex-col-reverse gap-4 sm:flex-row">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full sm:flex-1"
+                onClick={handleSkip}>
+                Skip
+              </Button>
+              <Button type="submit" className="w-full sm:flex-1">
+                Finish <Check className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>
