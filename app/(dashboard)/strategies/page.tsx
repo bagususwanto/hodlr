@@ -4,6 +4,14 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useAssets } from "@/hooks/use-assets";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -19,10 +27,29 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function StrategiesPage() {
   const { strategies, isLoading } = useStrategies();
+  const { assets } = useAssets();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedStrategy, setSelectedStrategy] = useState<
     Strategy | undefined
   >(undefined);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState("ALL");
+
+  const filteredStrategies = strategies?.filter((strategy) => {
+    const asset = assets?.find((a) => a.id === strategy.assetId);
+    const searchLower = searchQuery.toLowerCase();
+
+    const matchesSearch =
+      strategy.name.toLowerCase().includes(searchLower) ||
+      (asset &&
+        (asset.name.toLowerCase().includes(searchLower) ||
+          asset.symbol.toLowerCase().includes(searchLower)));
+
+    const matchesType = typeFilter === "ALL" || strategy.type === typeFilter;
+
+    return matchesSearch && matchesType;
+  });
 
   const handleEdit = (strategy: Strategy) => {
     setSelectedStrategy(strategy);
@@ -69,6 +96,31 @@ export default function StrategiesPage() {
         </Dialog>
       </div>
 
+      <div className="grid gap-4 p-2 md:flex md:items-center">
+        <div className="flex-1">
+          <input
+            type="text"
+            placeholder="Search by name or asset..."
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+        <Select value={typeFilter} onValueChange={setTypeFilter}>
+          <SelectTrigger className="w-full md:w-[200px]">
+            <SelectValue placeholder="All Types" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="ALL">All Types</SelectItem>
+            <SelectItem value="DCA">DCA</SelectItem>
+            <SelectItem value="SWING">Swing Trading</SelectItem>
+            <SelectItem value="VALUE">Value Investing</SelectItem>
+            <SelectItem value="GROWTH">Growth Investing</SelectItem>
+            <SelectItem value="DIVIDEND">Dividend Quality</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       <div className="flex-1 rounded-xl bg-muted/10 p-4">
         {isLoading ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -77,7 +129,10 @@ export default function StrategiesPage() {
             ))}
           </div>
         ) : (
-          <StrategyList strategies={strategies || []} onEdit={handleEdit} />
+          <StrategyList
+            strategies={filteredStrategies || []}
+            onEdit={handleEdit}
+          />
         )}
       </div>
     </div>
