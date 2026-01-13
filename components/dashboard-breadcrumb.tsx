@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,7 +20,9 @@ export function DashboardBreadcrumb() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem className="hidden md:block">
-          <BreadcrumbLink href="/">Hodlr</BreadcrumbLink>
+          <BreadcrumbLink asChild>
+            <Link href="/">Hodlr</Link>
+          </BreadcrumbLink>
         </BreadcrumbItem>
         {segments.length === 0 ? (
           <>
@@ -42,8 +45,8 @@ export function DashboardBreadcrumb() {
                   {isLast ? (
                     <BreadcrumbPage>{formattedSegment}</BreadcrumbPage>
                   ) : (
-                    <BreadcrumbLink href={href}>
-                      {formattedSegment}
+                    <BreadcrumbLink asChild>
+                      <Link href={href}>{formattedSegment}</Link>
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
