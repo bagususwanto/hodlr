@@ -9,6 +9,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import { NavMain } from "@/components/nav-main";
 import {
@@ -65,7 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link href="/">
                 <img
                   src="/icons/icon-192x192.png"
                   alt="Hodlr"
@@ -75,7 +76,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span className="truncate font-semibold">Hodlr</span>
                   <span className="truncate text-xs">Portfolio Manager</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
